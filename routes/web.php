@@ -1,10 +1,9 @@
 <?php
 
 use App\Livewire\Homepage;
-use App\Livewire\Settings\Appearance;
-use App\Livewire\Settings\Password;
-use App\Livewire\Settings\Profile;
+use App\Livewire\Uoms as UomsRoute;
 use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', Homepage::class);
+Route::get('uoms', UomsRoute::class);

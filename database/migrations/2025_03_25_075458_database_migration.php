@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->timestamp('insert_time');
             $table->string('last_update_by')->nullable();
             $table->timestamp('last_update_time')->nullable();
+            $table->timestamps();
         });
 
         // Category Table

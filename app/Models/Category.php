@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\Inventory as inv;
 
-class Uoms extends Model
+class Category extends Model
 {
-    protected $table = 'uoms';
+    protected $table = 'categories';
     protected $guarded = ['id'];
 
     protected $casts = [
@@ -18,6 +18,6 @@ class Uoms extends Model
 
     public function inventories(): HasMany
     {
-        return $this->hasMany(Inventory::class, 'uom_code');
+        return $this->hasMany(inv::class, 'category_id');
     }
 }

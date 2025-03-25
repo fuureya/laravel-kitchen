@@ -5,7 +5,8 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
-    public function up() {
+    public function up()
+    {
         // UOM Table
         Schema::create('uoms', function (Blueprint $table) {
             $table->id();
@@ -21,10 +22,11 @@ return new class extends Migration {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-              $table->string('insert_by');
+            $table->string('insert_by');
             $table->timestamp('insert_time');
             $table->string('last_update_by')->nullable();
             $table->timestamp('last_update_time')->nullable();
+            $table->timestamps();
         });
 
         // Supplier Table
@@ -42,14 +44,15 @@ return new class extends Migration {
             $table->timestamp('insert_date');
             $table->string('last_update_by')->nullable();
             $table->timestamp('last_update_time')->nullable();
+            $table->timestamps();
         });
 
         // Barang Inventory Table
         Schema::create('barang_inventory', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignId('category_id')->constrained('categories');
-            $table->foreignId('uom_code')->constrained('uoms');
+            $table->foreignId('category_id')->references('id')->on('categories');
+            $table->foreignId('uom_code')->references('id')->on('uoms');
             $table->decimal('price', 15, 2);
             $table->integer('stock_minimum');
             $table->string('insert_by');
@@ -57,10 +60,12 @@ return new class extends Migration {
             $table->enum('status', ['active', 'nonactive']);
             $table->string('last_update_by')->nullable();
             $table->timestamp('last_update_time')->nullable();
+            $table->timestamps();
         });
     }
 
-    public function down() {
+    public function down()
+    {
         Schema::dropIfExists('barang_inventory');
         Schema::dropIfExists('suppliers');
         Schema::dropIfExists('categories');

@@ -30,13 +30,24 @@
                 </div>
             </li>
 
+            <hr class="sidebar-divider">
 
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree"
+                    aria-expanded="true" aria-controls="collapseThree">
+                    <i class="fa-solid fa-shield"></i>
+                    <span>Grup & Hak Akses</span>
+                </a>
+                <div id="collapseThree" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="{{ url('/atur-hak-akses') }}">Atur Hak Akses</a>
+                        <a class="collapse-item" href="{{ url('/atur-grup') }}">Atur Grup</a>
+                        <a class="collapse-item" href="{{ url('/atur-user') }}">Atur User</a>
+                    </div>
+                </div>
+            </li>
 
-            <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
-
-
-
         </ul>

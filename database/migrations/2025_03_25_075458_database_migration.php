@@ -38,7 +38,7 @@ return new class extends Migration {
             $table->string('street');
             $table->string('city');
             $table->string('country');
-            $table->string('email')->unique();
+            $table->string('email');
             $table->decimal('ap_limit', 15, 2);
             $table->string('insert_by');
             $table->timestamp('insert_date');

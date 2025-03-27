@@ -54,6 +54,7 @@ class Suppliers extends Component
 
     public function store()
     {
+
         $this->validate([
             'name' => 'required|string|max:255',
             'pic' => 'required|string|max:255',
@@ -61,10 +62,10 @@ class Suppliers extends Component
             'street' => 'required|string|max:255',
             'city' => 'required|string|max:255',
             'country' => 'required|string|max:255',
-            'email' => 'required|email|unique:suppliers,email',
-            'ap_limit' => 'required|numeric|min:0',
+            'email' => 'required',
+            'ap_limit' => 'required|',
             'insert_by' => 'required|string|max:255',
-            'insert_date' => 'required|date',
+            'insert_date' => 'required',
         ]);
 
         SupplierModel::create([
@@ -114,10 +115,10 @@ class Suppliers extends Component
             'street' => 'required|string|max:255',
             'city' => 'required|string|max:255',
             'country' => 'required|string|max:255',
-            'email' => 'required|email|unique:suppliers,email,' . $this->supplier_id,
-            'ap_limit' => 'required|numeric|min:0',
+            'email' => 'required',
+            'ap_limit' => 'required',
             'insert_by' => 'required|string|max:255',
-            'insert_date' => 'required|date',
+            'insert_date' => 'required',
         ]);
 
         $supplier = SupplierModel::findOrFail($this->supplier_id);

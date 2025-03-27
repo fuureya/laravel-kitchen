@@ -64,8 +64,16 @@
 
     <!-- Add Modal -->
     <div class="modal fade" id="modalAdd" data-backdrop="static" data-keyboard="false" tabindex="-1"
-        aria-labelledby="modalAddLabel" aria-hidden="true" wire:ignore.self>
+        aria-labelledby="modalAddLabel" aria-hidden="true" wire:ignore>
+
         <div class="modal-dialog modal-lg">
+            @if ($errors->any())
+                @foreach ($errors->all() as $error)
+                    <div class="alert alert-danger" role="alert">
+                        {{ $error }}
+                    </div>
+                @endforeach
+            @endif
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalAddLabel">Add New Supplier</h5>
@@ -143,7 +151,8 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"
                         wire:click="closeModal">Close</button>
-                    <button type="button" class="btn btn-primary" wire:click="store">Save Supplier</button>
+                    <button type="button" class="btn btn-primary" wire:click="store">Save
+                        Supplier</button>
                 </div>
             </div>
         </div>

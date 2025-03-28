@@ -12,7 +12,7 @@ use App\Livewire\Suppliers as SupplierRoutes;
 use Illuminate\Support\Facades\Route;
 
 
-Route::get('/', Homepage::class);
+Route::get('/', Homepage::class)->middleware('permission:dashboard');
 Route::get('uoms', UomsRoute::class);
 Route::get('category', CategoryRoute::class);
 Route::get('inventory', inventoryRoutes::class);

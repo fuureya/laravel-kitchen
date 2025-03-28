@@ -44,15 +44,31 @@ class AturUser extends Component
     public function store()
     {
         $this->validate();
-        $permission = Group::where('name', $this->group)->first();
-        // dd($this->username);
-        // dd(json_encode([$permission->permissions]));
+        // $permission = Group::where('name', $this->group)->first();
+        // $permissions = is_array($permission->permissions) ? $permission->permissions : json_decode($permission->permissions, true);
+        // // dd($permission);
+
+
+        // Ambil data group berdasarkan nama
+        $group = Group::where('name', $this->group)->first();
+
+        if (!$group) {
+            session()->flash('error', 'Group tidak ditemukan.');
+            return;
+        }
+
+        // Pastikan permissions adalah array satu tingkat sebelum menyimpan
+        $permissions = json_decode($group->permissions, true); // Decode ke array jika masih dalam JSON string
+        if (is_array($permissions) && count($permissions) === 1 && is_array($permissions[0])) {
+            $permissions = $permissions[0]; // Hilangkan nested array jika ada
+        }
+
         User::create([
             'name' => $this->name,
             'username' => $this->username,
             'password' => Hash::make($this->password),
             'group' => $this->group,
-            'permissions' => json_encode([$permission->permissions])
+            'permissions' => json_encode($permissions)
         ]);
 
         session()->flash('message', 'User berhasil ditambahkan.');

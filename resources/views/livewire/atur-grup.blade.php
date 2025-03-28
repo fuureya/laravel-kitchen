@@ -126,7 +126,9 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"
                         wire:click="resetForm">Tutup</button>
-                    <button type="button" class="btn btn-primary" wire:click="update">Update</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"
+                        wire:click="resetPermissions">Reset Permission</button>
+                    <button type="button" class="btn btn-success" wire:click="update">Update</button>
                 </div>
             </div>
         </div>

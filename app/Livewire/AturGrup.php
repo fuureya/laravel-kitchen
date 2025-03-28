@@ -27,16 +27,14 @@ class AturGrup extends Component
     public function resetForm()
     {
         $this->name = '';
-        $this->permissions = [];
+        $this->permissions = '';
         $this->grupId = null;
         $this->isEditMode = false;
     }
 
     public function store()
     {
-
         $this->validate();
-
         Grup::create([
             'name' => $this->name,
             'permissions' => json_encode($this->permissions)
@@ -54,23 +52,46 @@ class AturGrup extends Component
         $this->name = $grup->name;
         $this->permissions = json_decode($grup->permissions, true) ?? [];
         $this->isEditMode = true;
-
         $this->dispatch('openModalEdit');
     }
 
     public function update()
     {
-        $this->validate();
-        $grup = Grup::findOrFail($this->grupId);
-        $grup->update([
-            'name' => $this->name,
-            'permissions' => json_encode($this->permissions)
+        $this->validate([
+            'name' => 'required|string|max:255',
+            'permissions' => 'array|required' // Pastikan permissions adalah array dan tidak kosong
         ]);
 
-        session()->flash('message', 'Grup berhasil diperbarui.');
+        $grup = Grup::findOrFail($this->grupId);
+
+        // Hapus data permissions lama sebelum menyimpan yang baru
+        $grup->permissions = null;
+        $grup->save();
+
+        // Simpan permissions baru, pastikan tidak ada data lama yang tersisa
+        $grup->update([
+            'name' => $this->name,
+            'permissions' => json_encode(array_values($this->permissions)) // Simpan hanya data baru
+        ]);
+
+        session()->flash('message', 'Grup berhasil diperbarui dengan data baru.');
         $this->resetForm();
         $this->dispatch('editSubmitted');
     }
+
+    public function resetPermissions()
+    {
+        $grup = Grup::findOrFail($this->grupId);
+        $grup->update([
+            'permissions' => null
+        ]);
+
+        session()->flash('message', 'Permissions berhasil direset.');
+        $this->dispatch('permissionsReset');
+    }
+
+
+
 
     public function delete($id)
     {

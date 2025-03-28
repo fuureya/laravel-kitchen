@@ -31,7 +31,17 @@
                                     <td>{{ $user->username }}</td>
                                     <td>{{ $user->group }}</td>
                                     <td>
-                                        {{ str_replace(['[', ']', '"', "'"], '', implode(', ', json_decode($user->permissions, true) ?? [])) }}
+                                        @php
+                                            $permissions = json_decode($user->permissions, true);
+                                            if (
+                                                is_array($permissions) &&
+                                                count($permissions) === 1 &&
+                                                is_array($permissions[0])
+                                            ) {
+                                                $permissions = $permissions[0]; // Ambil array pertama jika bersarang
+                                            }
+                                        @endphp
+                                        {{ implode(', ', $permissions) }}
                                     </td>
 
 

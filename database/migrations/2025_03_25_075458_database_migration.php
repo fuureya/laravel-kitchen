@@ -62,6 +62,20 @@ return new class extends Migration {
             $table->timestamp('last_update_time')->nullable();
             $table->timestamps();
         });
+
+
+        Schema::create('hak_akses', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->timestamps();
+        });
+
+        Schema::create('group_akses', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->json('permissions');
+            $table->timestamps();
+        });
     }
 
     public function down()

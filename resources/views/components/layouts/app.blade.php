@@ -17,7 +17,8 @@
 
 <body>
     <div id="wrapper">
-        @include('partials.sidebar')
+        {{-- @include('partials.sidebar') --}}
+        @livewire('layouts.sidebar')
         <div id="content-wrapper" class="d-flex flex-column">
             <div id="content">
                 @include('partials.navbar')
@@ -60,6 +61,7 @@
     <script src="{{ asset('template/js/demo/chart-area-demo.js') }}"></script>
     <script src="{{ asset('template/js/demo/chart-pie-demo.js') }}"></script>
     <script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
+
 </body>
 
 </html>

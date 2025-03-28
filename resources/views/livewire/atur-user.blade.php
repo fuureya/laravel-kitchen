@@ -30,7 +30,11 @@
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->username }}</td>
                                     <td>{{ $user->group }}</td>
-                                    <td>{{ implode(',', json_decode($user->permissions)) }}</td>
+                                    <td>
+                                        {{ str_replace(['[', ']', '"', "'"], '', implode(', ', json_decode($user->permissions, true) ?? [])) }}
+                                    </td>
+
+
                                     <td>
                                         <button class="btn" wire:click="edit({{ $user->id }})"
                                             data-toggle="modal" data-target="#modalEdit">

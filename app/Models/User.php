@@ -9,4 +9,8 @@ class User extends Model
 {
     protected $table = 'users';
     protected $guarded = ['id'];
+
+    protected $casts = [
+        'permissions' => 'array',
+    ];
 }

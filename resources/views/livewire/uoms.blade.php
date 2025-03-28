@@ -82,25 +82,7 @@
                             <input type="text" class="form-control" id="name" placeholder="Enter Name"
                                 wire:model='name'>
                         </div>
-                        <div class="form-group">
-                            <label for="insert_by">Insert By</label>
-                            <input type="text" class="form-control" id="insert_by" placeholder="Inserted By"
-                                wire:model='insert_by'>
-                        </div>
-                        <div class="form-group">
-                            <label for="insert_time">Insert Time</label>
-                            <input type="datetime-local" class="form-control" id="insert_time" wire:model='insert_time'>
-                        </div>
-                        <div class="form-group">
-                            <label for="last_update_by">Last Update By</label>
-                            <input type="text" class="form-control" id="last_update_by" placeholder="Last Updated By"
-                                wire:model='last_update_by'>
-                        </div>
-                        <div class="form-group">
-                            <label for="last_update_time">Last Update Time</label>
-                            <input type="datetime-local" class="form-control" id="last_update_time"
-                                wire:model='last_update_time'>
-                        </div>
+
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -138,26 +120,7 @@
                             <input type="text" class="form-control" id="name" placeholder="Enter Name"
                                 wire:model='name'>
                         </div>
-                        <div class="form-group">
-                            <label for="insert_by">Insert By</label>
-                            <input type="text" class="form-control" id="insert_by" placeholder="Inserted By"
-                                wire:model='insert_by'>
-                        </div>
-                        <div class="form-group">
-                            <label for="insert_time">Insert Time</label>
-                            <input type="datetime-local" class="form-control" id="insert_time"
-                                wire:model='insert_time'>
-                        </div>
-                        <div class="form-group">
-                            <label for="last_update_by">Last Update By</label>
-                            <input type="text" class="form-control" id="last_update_by"
-                                placeholder="Last Updated By" wire:model='last_update_by'>
-                        </div>
-                        <div class="form-group">
-                            <label for="last_update_time">Last Update Time</label>
-                            <input type="datetime-local" class="form-control" id="last_update_time"
-                                wire:model='last_update_time'>
-                        </div>
+
                     </form>
                 </div>
                 <div class="modal-footer">

@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\Inventory as InvModel;
 use App\Models\Category as CategoryModel;
 use App\Models\Uoms as UomsModel;
+use Carbon\Carbon;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -64,8 +65,6 @@ class Inventory extends Component
             'uom_code' => 'required|exists:uoms,id',
             'price' => 'required|numeric|min:0',
             'stock_minimum' => 'required|integer|min:0',
-            'insert_by' => 'required',
-            'insert_date' => 'required|date',
             'status' => 'required|in:active,nonactive'
         ]);
 
@@ -75,11 +74,9 @@ class Inventory extends Component
             'uom_code' => $this->uom_code,
             'price' => $this->price,
             'stock_minimum' => $this->stock_minimum,
-            'insert_by' => $this->insert_by,
-            'insert_date' => $this->insert_date,
+            'insert_by' => auth()->user()->name,
+            'insert_date' => Carbon::now(),
             'status' => $this->status,
-            'last_update_by' => $this->last_update_by,
-            'last_update_time' => $this->last_update_time
         ]);
 
         $this->dispatch('formSubmitted');
@@ -96,11 +93,7 @@ class Inventory extends Component
         $this->uom_code = $inventory->uom_code;
         $this->price = $inventory->price;
         $this->stock_minimum = $inventory->stock_minimum;
-        $this->insert_by = $inventory->insert_by;
-        $this->insert_date = $inventory->insert_date->format('Y-m-d\TH:i');
         $this->status = $inventory->status;
-        $this->last_update_by = $inventory->last_update_by;
-        $this->last_update_time = $inventory->last_update_time?->format('Y-m-d\TH:i');
     }
 
     public function update()
@@ -111,8 +104,6 @@ class Inventory extends Component
             'uom_code' => 'required|exists:uoms,id',
             'price' => 'required|numeric|min:0',
             'stock_minimum' => 'required|integer|min:0',
-            'insert_by' => 'required',
-            'insert_date' => 'required|date',
             'status' => 'required|in:active,nonactive'
         ]);
 
@@ -124,11 +115,9 @@ class Inventory extends Component
             'uom_code' => $this->uom_code,
             'price' => $this->price,
             'stock_minimum' => $this->stock_minimum,
-            'insert_by' => $this->insert_by,
-            'insert_date' => $this->insert_date,
             'status' => $this->status,
-            'last_update_by' => $this->last_update_by ?? $this->insert_by,
-            'last_update_time' => $this->last_update_time ?? now()
+            'last_update_by' => auth()->user()->name,
+            'last_update_time' => Carbon::now()
         ]);
 
         $this->dispatch('editSubmitted');

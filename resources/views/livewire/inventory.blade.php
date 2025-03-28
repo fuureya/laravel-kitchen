@@ -25,6 +25,8 @@
                                 <th>Status</th>
                                 <th>Insert By</th>
                                 <th>Insert Date</th>
+                                <th>Edit By</th>
+                                <th>Edit Date</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -45,6 +47,8 @@
                                     </td>
                                     <td>{{ $inventory->insert_by }}</td>
                                     <td>{{ $inventory->insert_date->format('Y-m-d H:i') }}</td>
+                                    <td>{{ $inventory->last_update_by }}</td>
+                                    <td>{{ $inventory->last_update_time }}</td>
                                     <td>
                                         <button wire:click="edit({{ $inventory->id }})" class="btn"
                                             data-toggle="modal" data-target="#modalEdit">
@@ -129,22 +133,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="insert_by">Insert By</label>
-                                    <input type="text" class="form-control" id="insert_by"
-                                        placeholder="Enter your name" wire:model="insert_by">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="insert_date">Insert Date</label>
-                                    <input type="datetime-local" class="form-control" id="insert_date"
-                                        wire:model="insert_date">
-                                </div>
-                            </div>
-                        </div>
+
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -213,32 +202,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="insert_by">Insert By</label>
-                                    <input type="text" class="form-control" id="insert_by"
-                                        wire:model="insert_by">
-                                </div>
-                                <div class="form-group">
-                                    <label for="insert_date">Insert Date</label>
-                                    <input type="datetime-local" class="form-control" id="insert_date"
-                                        wire:model="insert_date">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="last_update_by">Last Update By</label>
-                                    <input type="text" class="form-control" id="last_update_by"
-                                        wire:model="last_update_by">
-                                </div>
-                                <div class="form-group">
-                                    <label for="last_update_time">Last Update Time</label>
-                                    <input type="datetime-local" class="form-control" id="last_update_time"
-                                        wire:model="last_update_time">
-                                </div>
-                            </div>
-                        </div>
+
                     </form>
                 </div>
                 <div class="modal-footer">

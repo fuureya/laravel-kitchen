@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Suppliers as SupplierModel;
+use Carbon\Carbon;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -64,8 +65,7 @@ class Suppliers extends Component
             'country' => 'required|string|max:255',
             'email' => 'required',
             'ap_limit' => 'required|',
-            'insert_by' => 'required|string|max:255',
-            'insert_date' => 'required',
+
         ]);
 
         SupplierModel::create([
@@ -77,10 +77,9 @@ class Suppliers extends Component
             'country' => $this->country,
             'email' => $this->email,
             'ap_limit' => $this->ap_limit,
-            'insert_by' => $this->insert_by,
-            'insert_date' => $this->insert_date,
-            'last_update_by' => $this->last_update_by,
-            'last_update_time' => $this->last_update_time
+            'insert_by' => auth()->user()->name,
+            'insert_date' => Carbon::now(),
+
         ]);
 
         $this->dispatch('formSubmitted');
@@ -100,10 +99,6 @@ class Suppliers extends Component
         $this->country = $supplier->country;
         $this->email = $supplier->email;
         $this->ap_limit = $supplier->ap_limit;
-        $this->insert_by = $supplier->insert_by;
-        $this->insert_date = $supplier->insert_date->format('Y-m-d\TH:i');
-        $this->last_update_by = $supplier->last_update_by;
-        $this->last_update_time = $supplier->last_update_time?->format('Y-m-d\TH:i');
     }
 
     public function update()
@@ -117,8 +112,7 @@ class Suppliers extends Component
             'country' => 'required|string|max:255',
             'email' => 'required',
             'ap_limit' => 'required',
-            'insert_by' => 'required|string|max:255',
-            'insert_date' => 'required',
+
         ]);
 
         $supplier = SupplierModel::findOrFail($this->supplier_id);
@@ -132,10 +126,8 @@ class Suppliers extends Component
             'country' => $this->country,
             'email' => $this->email,
             'ap_limit' => $this->ap_limit,
-            'insert_by' => $this->insert_by,
-            'insert_date' => $this->insert_date,
-            'last_update_by' => $this->last_update_by ?? $this->insert_by,
-            'last_update_time' => $this->last_update_time ?? now()
+            'last_update_by' => auth()->user()->name,
+            'last_update_time' => Carbon::now()
         ]);
 
         $this->dispatch('editSubmitted');

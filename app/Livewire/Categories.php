@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Category;
+use Carbon\Carbon;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -41,16 +42,14 @@ class Categories extends Component
     {
         $this->validate([
             'name' => 'required',
-            'insert_by' => 'required',
-            'insert_time' => 'required',
+
         ]);
 
         Category::create([
             'name' => $this->name,
-            'insert_by' => $this->insert_by,
-            'insert_time' => $this->insert_time,
-            'last_update_by' => $this->last_update_by,
-            'last_update_time' => $this->last_update_time
+            'insert_by' => auth()->user()->name,
+            'insert_time' => Carbon::now(),
+
         ]);
 
         $this->dispatch('formSubmitted');
@@ -63,28 +62,20 @@ class Categories extends Component
         $category = Category::findOrFail($id);
         $this->category_id = $id;
         $this->name = $category->name;
-        $this->insert_by = $category->insert_by;
-        $this->insert_time = $category->insert_time;
-        $this->last_update_by = $category->last_update_by;
-        $this->last_update_time = $category->last_update_time;
     }
 
     public function update()
     {
         $this->validate([
             'name' => 'required',
-            'insert_by' => 'required',
-            'insert_time' => 'required',
         ]);
 
         $category = Category::findOrFail($this->category_id);
 
         $category->update([
             'name' => $this->name,
-            'insert_by' => $this->insert_by,
-            'insert_time' => $this->insert_time,
-            'last_update_by' => $this->last_update_by ?? $this->insert_by,
-            'last_update_time' => $this->last_update_time ?? now()
+            'last_update_by' => auth()->user()->name,
+            'last_update_time' => Carbon::now()
         ]);
 
         $this->dispatch('editSubmitted');

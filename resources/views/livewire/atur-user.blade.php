@@ -30,21 +30,7 @@
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->username }}</td>
                                     <td>{{ $user->group }}</td>
-                                    <td>
-                                        @php
-                                            $permissions = json_decode($user->permissions, true);
-                                            if (
-                                                is_array($permissions) &&
-                                                count($permissions) === 1 &&
-                                                is_array($permissions[0])
-                                            ) {
-                                                $permissions = $permissions[0]; // Ambil array pertama jika bersarang
-                                            }
-                                        @endphp
-                                        {{ implode(', ', $permissions) }}
-                                    </td>
-
-
+                                    <td>{{ implode(', ', json_decode($user->permissions, true) ?? []) }}</td>
                                     <td>
                                         <button class="btn" wire:click="edit({{ $user->id }})"
                                             data-toggle="modal" data-target="#modalEdit">
@@ -196,6 +182,10 @@
 
         Livewire.on('openModalEdit', () => {
             $('#modalEdit').modal('show');
+        });
+
+        Livewire.on('editSubmitted', () => {
+            $('#modalEdit').modal('hide');
         });
     </script>
 @endpush

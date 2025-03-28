@@ -82,7 +82,7 @@ class AturUser extends Component
         $this->userId = $id;
         $this->name = $user->name;
         $this->username = $user->username;
-        $this->group = json_decode($user->group)[0] ?? '';
+        // $this->permissions = json_decode($user->permissions)[0] ?? '';
 
         $this->isEditMode = true;
         $this->dispatch('openModalEdit');
@@ -97,15 +97,30 @@ class AturUser extends Component
         ]);
 
         $user = User::findOrFail($this->userId);
+
+        // Ambil data group berdasarkan nama
+        $group = Group::where('name', $this->group)->first();
+
+        if (!$group) {
+            session()->flash('error', 'Group tidak ditemukan.');
+            return;
+        }
+
+        $permissions = json_decode($group->permissions, true);
+        if (is_array($permissions) && count($permissions) === 1 && is_array($permissions[0])) {
+            $permissions = $permissions[0];
+        }
+
         $user->update([
             'name' => $this->name,
             'password' => $this->password ? Hash::make($this->password) : $user->password,
-            'group' => json_encode([$this->group])
+            'group' => $this->group,
+            'permissions' => json_encode($permissions)
         ]);
 
+        $this->dispatch('editSubmitted');
         session()->flash('message', 'User berhasil diperbarui.');
         $this->resetForm();
-        $this->dispatch('closeModal');
     }
 
     public function delete($id)

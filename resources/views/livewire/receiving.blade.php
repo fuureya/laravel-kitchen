@@ -90,9 +90,9 @@
 
                         <div class="form-group">
                             <label for="suppliers">Suppliers</label>
-                            <select class="form-control" id="suppliers">
+                            <select class="form-control" id="suppliers" wire:model='suppliers'>
                                 <option>Pilih Suppliers</option>
-                                @foreach ($suppliers as $item)
+                                @foreach ($supp as $item)
                                     <option value="{{ $item->id }}">{{ $item->name }}</option>
                                 @endforeach
                             </select>
@@ -122,7 +122,12 @@
                                 </tr>
                             </thead>
                             <tbody>
-
+                                <tr>
+                                    <td>1</td>
+                                    <td>{{ $receivingID }}</td>
+                                    <td>{{ $inventory }}</td>
+                                    <td>{{ $quantity }}</td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -130,7 +135,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                        wire:click='closeModal'>Close</button>
+                        wire:click='closeReceiving'>Close</button>
                     <button type="button" class="btn btn-primary" wire:click='store()'>Simpan Data</button>
                 </div>
             </div>
@@ -163,35 +168,35 @@
                             <label for="inventory">Inventory</label>
                             <select class="form-control" id="inventory">
                                 <option>Pilih Inventory</option>
-                                @foreach ($inventory as $item)
+                                @foreach ($invent as $item)
                                     <option value="{{ $item->id }}">{{ $item->name }}</option>
                                 @endforeach
                             </select>
                         </div>
 
                         <div class="form-group">
-                            <label for="number">Quantity</label>
-                            <input type="quantity" class="form-control" id="quantity" placeholder="Enter quantity"
-                                wire:model='quantity'>
+                            <label for="quantity">Quantity</label>
+                            <input type="number" class="form-control" id="quantity" placeholder="Enter quantity"
+                                wire:model.live='quantity'>
                         </div>
 
                         <div class="form-group">
-                            <label for="number">Price</label>
-                            <input type="price" class="form-control" id="price" placeholder="Enter price"
-                                wire:model='price'>
+                            <label for="price">Price</label>
+                            <input type="number" class="form-control" id="price" placeholder="Enter price"
+                                wire:model.live='price'>
                         </div>
 
                         <div class="form-group">
-                            <label for="number">Price Quantity</label>
-                            <input type="price_quantity" class="form-control" id="price_quantity"
-                                placeholder="Enter Price Quantity" wire:model='price_quantity'>
+                            <label for="price_quantity">Price Quantity</label>
+                            <input type="number" class="form-control" id="price_quantity"
+                                placeholder="Enter Price Quantity" wire:model.live='priceQuantity' disabled>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                        wire:click='closeModal'>Close</button>
-                    <button type="button" class="btn btn-primary" wire:click='store()'>Simpan Data</button>
+                        wire:click='closeDetail'>Close</button>
+                    <button type="button" class="btn btn-primary">Simpan Data</button>
                 </div>
             </div>
         </div>

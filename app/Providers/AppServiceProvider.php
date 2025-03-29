@@ -5,6 +5,8 @@ namespace App\Providers;
 use App\Models\User;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Gate;
+use Livewire\Livewire;
+use App\Http\Livewire\Layouts\Table;
 
 class AppServiceProvider extends ServiceProvider
 {

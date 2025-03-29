@@ -76,6 +76,35 @@ return new class extends Migration {
             $table->json('permissions');
             $table->timestamps();
         });
+
+        // Receiving Table
+        Schema::create('receiving', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->string('receiving_id')->uniqid();
+            $table->date('date');
+            $table->text('remark')->nullable();
+            $table->foreignId('supplier_id')->constrained('suppliers');
+            $table->string('insert_by');
+            $table->timestamp('insert_date');
+            $table->string('last_update_by')->nullable();
+            $table->timestamp('last_update_time')->nullable();
+            $table->timestamps();
+        });
+
+        // Receiving Detail Table
+        Schema::create('receiving_detail', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->foreignUuid('receiving_id')->constrained('receiving');
+            $table->foreignId('inventory_id')->constrained('barang_inventory');
+            $table->integer('qty');
+            $table->decimal('price', 15, 2);
+            $table->decimal('price_qty', 15, 2);
+            $table->string('insert_by');
+            $table->timestamp('insert_date');
+            $table->string('last_update_by')->nullable();
+            $table->timestamp('last_update_time')->nullable();
+            $table->timestamps();
+        });
     }
 
     public function down()
@@ -84,5 +113,7 @@ return new class extends Migration {
         Schema::dropIfExists('suppliers');
         Schema::dropIfExists('categories');
         Schema::dropIfExists('uoms');
+        Schema::dropIfExists('hak_akses');
+        Schema::dropIfExists('group_akses');
     }
 };

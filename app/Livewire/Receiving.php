@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\Inventory;
 use App\Models\Suppliers;
 use App\Models\User;
 use Illuminate\Support\Facades\DB as FacadesDB;
@@ -12,6 +13,10 @@ class Receiving extends Component
     public function render()
     {
         $suppliers = Suppliers::select('name', 'id')->get();
-        return view('livewire.receiving', ["suppliers" => $suppliers]);
+        $inventory = Inventory::select('name', 'id')->get();
+        return view('livewire.receiving', [
+            "suppliers" => $suppliers,
+            "inventory" => $inventory
+        ]);
     }
 }

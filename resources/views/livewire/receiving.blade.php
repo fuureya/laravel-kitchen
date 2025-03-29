@@ -156,28 +156,35 @@
                     @endforeach
                 @endif
                 <div class="modal-body">
+                    <small>Receiving Id : <span class="badge bg-danger text-white">12355454</span></small>
                     <form>
-                        <div class="form-group">
-                            <label for="date">Date</label>
-                            <input type="date" class="form-control" id="date" placeholder="Enter date"
-                                wire:model='date'>
-                        </div>
 
                         <div class="form-group">
-                            <label for="suppliers">Suppliers</label>
-                            <select class="form-control" id="suppliers">
-                                <option>Pilih Suppliers</option>
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
+                            <label for="inventory">Inventory</label>
+                            <select class="form-control" id="inventory">
+                                <option>Pilih Inventory</option>
+                                @foreach ($inventory as $item)
+                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                @endforeach
                             </select>
                         </div>
 
                         <div class="form-group">
-                            <label for="exampleFormControlTextarea1">Remarks</label>
-                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" wire:model='remarks'></textarea>
+                            <label for="number">Quantity</label>
+                            <input type="quantity" class="form-control" id="quantity" placeholder="Enter quantity"
+                                wire:model='quantity'>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="number">Price</label>
+                            <input type="price" class="form-control" id="price" placeholder="Enter price"
+                                wire:model='price'>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="number">Price Quantity</label>
+                            <input type="price_quantity" class="form-control" id="price_quantity"
+                                placeholder="Enter Price Quantity" wire:model='price_quantity'>
                         </div>
                     </form>
                 </div>

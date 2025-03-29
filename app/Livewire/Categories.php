@@ -42,7 +42,6 @@ class Categories extends Component
     {
         $this->validate([
             'name' => 'required',
-
         ]);
 
         Category::create([

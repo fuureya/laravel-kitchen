@@ -22,7 +22,7 @@
         @livewire('layouts.sidebar')
         <div id="content-wrapper" class="d-flex flex-column">
             <div id="content">
-                @include('partials.navbar')
+                @livewire('layouts.navbar')
                 <div class="container-fluid">
                     {{ $slot }}
                 </div>

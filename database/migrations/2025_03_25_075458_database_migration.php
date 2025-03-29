@@ -79,7 +79,7 @@ return new class extends Migration {
 
         // Receiving Table
         Schema::create('receiving', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->id();
             $table->string('receiving_id')->uniqid();
             $table->date('date');
             $table->text('remark')->nullable();
@@ -93,8 +93,9 @@ return new class extends Migration {
 
         // Receiving Detail Table
         Schema::create('receiving_detail', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->foreignUuid('receiving_id')->constrained('receiving');
+            $table->id();
+            $table->string('receiving_id')->unique();
+            // $table->foreignId('receiving_id')->constrained('receiving');
             $table->foreignId('inventory_id')->constrained('barang_inventory');
             $table->integer('qty');
             $table->decimal('price', 15, 2);

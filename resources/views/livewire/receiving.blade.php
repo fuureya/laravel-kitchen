@@ -81,7 +81,7 @@
                 @endif
                 <div class="modal-body">
                     <form>
-                        <small>Receiving Id : <span class="badge bg-danger text-white">12355454</span></small>
+
                         <div class="form-group">
                             <label for="date">Date</label>
                             <input type="date" class="form-control" id="date" placeholder="Enter date"
@@ -127,6 +127,8 @@
                                     <td>{{ $receivingID }}</td>
                                     <td>{{ $inventory }}</td>
                                     <td>{{ $quantity }}</td>
+                                    <td>{{ $price }}</td>
+                                    <td>{{ $priceQuantity }}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -136,7 +138,8 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"
                         wire:click='closeReceiving'>Close</button>
-                    <button type="button" class="btn btn-primary" wire:click='store()'>Simpan Data</button>
+                    <button type="button" class="btn btn-primary" {{ $saveState == 'true' ? '' : 'disabled' }}
+                        wire:click='store()'>Simpan Data</button>
                 </div>
             </div>
         </div>
@@ -161,12 +164,10 @@
                     @endforeach
                 @endif
                 <div class="modal-body">
-                    <small>Receiving Id : <span class="badge bg-danger text-white">12355454</span></small>
                     <form>
-
                         <div class="form-group">
                             <label for="inventory">Inventory</label>
-                            <select class="form-control" id="inventory">
+                            <select class="form-control" id="inventory" wire:model.live='inventory'>
                                 <option>Pilih Inventory</option>
                                 @foreach ($invent as $item)
                                     <option value="{{ $item->id }}">{{ $item->name }}</option>
@@ -196,7 +197,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"
                         wire:click='closeDetail'>Close</button>
-                    <button type="button" class="btn btn-primary">Simpan Data</button>
+                    <button type="button" class="btn btn-primary" wire:click='enableSaving'>Simpan Detail</button>
                 </div>
             </div>
         </div>
@@ -250,6 +251,13 @@
             Livewire.on('editSubmitted', () => {
                 $('#modalEdit').modal('hide');
             });
+
+            Livewire.on('modalAddDetail', () => {
+                $('#modalAddDetail').hide();
+            });
+
+
+
         });
     </script>
 @endscript

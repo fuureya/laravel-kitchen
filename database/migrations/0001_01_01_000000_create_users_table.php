@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('username')->unique();
             $table->string('password');
-            $table->string('group');
-            $table->json('permissions');
+            $table->string('group')->nullable();
+            $table->json('permissions')->nullable();
             $table->timestamps();
         });
     }

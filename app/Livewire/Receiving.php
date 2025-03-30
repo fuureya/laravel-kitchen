@@ -39,6 +39,7 @@ class Receiving extends Component
         $this->quantity = 0;
         $this->price = 0;
         $this->priceQuantity = 0;
+        $this->receivingID = '';
     }
 
     public function closeReceiving()
@@ -105,8 +106,43 @@ class Receiving extends Component
 
     public function edit($id)
     {
-        dd('anjay');
+        $data =  ModelsReceivingDetail::where('receiving_code', $id)->first();
+        $this->quantity = $data->qty;
+        $this->price = $data->price;
+        $this->inventory = $data->inventory_id;
+        $this->priceQuantity = $data->price_qty;
+        $this->receivingID = $data->receiving_code;
     }
+
+    public function update()
+    {
+        $this->validate([
+            'inventory' => 'required',
+            'quantity' => 'required',
+            'price' => 'required',
+        ]);
+
+        ModelsReceivingDetail::where('receiving_code', $this->receivingID)->update([
+            'inventory_id' => $this->inventory,
+            'qty' => $this->quantity,
+            'price' => $this->price,
+            'price_qty' => $this->priceQuantity,
+            'last_update_by' => auth()->user()->name,
+            'last_update_time' => Carbon::now()
+        ]);
+
+
+        ModelsReceiving::where('receiving_id', $this->receivingID)->update([
+            'last_update_by' => auth()->user()->name,
+            'last_update_time' => Carbon::now()
+        ]);
+
+
+        $this->reset(['code', 'receivingID', 'date', 'suppliers', 'remarks', 'inventory', 'quantity', 'price', 'priceQuantity']);
+        $this->dispatch('formEditSubmitted');
+    }
+
+
 
     public function delete($id)
     {

@@ -80,7 +80,7 @@ return new class extends Migration {
         // Receiving Table
         Schema::create('receiving', function (Blueprint $table) {
             $table->id();
-            $table->string('receiving_id', 50)->unique()->index();
+            $table->string('receiving_id', 50)->unique();
             $table->date('date');
             $table->text('remark')->nullable();
             $table->foreignId('supplier_id')->constrained('suppliers');
@@ -94,7 +94,7 @@ return new class extends Migration {
         // Receiving Detail Table
         Schema::create('receiving_detail', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('receiving_id', 50)->references('id')->on('receiving');
+            $table->foreignId('receiving_id')->references('id')->on('receiving')->onDelete('cascade');
             $table->string('receiving_code', 50)->unique();
             $table->foreignId('inventory_id')->constrained('barang_inventory');
             $table->integer('qty');

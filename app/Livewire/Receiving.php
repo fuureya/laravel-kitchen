@@ -95,15 +95,22 @@ class Receiving extends Component
 
     public function showDetail($id)
     {
-        dd('anjay detail');
-        // // $this->receivingID = $id;
-        // $data =  ModelsReceivingDetail::where('receiving_code', $id)->get();
-        // $this->quantity = $data->qty;
+        $data =  ModelsReceivingDetail::where('receiving_code', $id)->first();
+        $this->quantity = $data->qty;
+        $this->price = $data->price;
+        $this->inventory = $data->inventory_id;
+        $this->priceQuantity = $data->price_qty;
+        $this->receivingID = $data->receiving_code;
     }
 
     public function edit($id)
     {
         dd('anjay');
+    }
+
+    public function delete($id)
+    {
+        ModelsReceiving::where('receiving_id', $id)->delete();
     }
 
 

@@ -16,6 +16,7 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
+                                <th>Receiving ID</th>
                                 <th>Tanggal</th>
                                 <th>Remark</th>
                                 <th>Supplier</th>
@@ -30,6 +31,7 @@
                             @foreach ($data as $datas)
                                 <tr>
                                     <td>{{ $datas->id }}</td>
+                                    <td>{{ $datas->receiving_id }}</td>
                                     <td>{{ $datas->date }}</td>
                                     <td>{{ $datas->remark }}</td>
                                     <td>{{ $datas->supplier->name }}</td>
@@ -39,14 +41,14 @@
                                     <td>{{ $datas->last_update_time }}</td>
                                     <td>
                                         <button wire:click="showDetail('{{ $datas->receiving_id }}')" class="btn"
-                                            data-toggle="modal" data-target="#modalEdit"> <i
+                                            data-toggle="modal" data-target="#modalShowDetail"> <i
                                                 class="fas fa-eye text-primary"></i>
                                             </>
                                             <button wire:click="edit({{ $datas->id }})" class="btn"
                                                 data-toggle="modal" data-target="#modalEdit"> <i
                                                     class="fas fa-edit text-success"></i>
                                             </button>
-                                            <button wire:click="delete({{ $datas->id }})" class="btn"
+                                            <button wire:click="delete('{{ $datas->receiving_id }}')" class="btn"
                                                 wire:confirm="Yakin Ingin Menghapus?"><i
                                                     class="fas fa-trash text-danger"></i></button>
                                     </td>
@@ -176,7 +178,7 @@
                             <select class="form-control" id="inventory" wire:model.live='inventory'>
                                 <option>Pilih Inventory</option>
                                 @foreach ($invent as $item)
-                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                    <option value="{{ $item->id }}">{{ $item->name }}</optio>
                                 @endforeach
                             </select>
                         </div>
@@ -215,7 +217,7 @@
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalEditLabel">Add Detail Record</h5>
+                    <h5 class="modal-title" id="modalEditLabel">Show Detail Record</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -229,9 +231,10 @@
                 @endif
                 <div class="modal-body">
                     <form>
+                        <p class="badge bg-danger text-white">{{ $receivingID }}</p>
                         <div class="form-group">
                             <label for="inventory">Inventory</label>
-                            <select class="form-control" id="inventory" wire:model.live='inventory'>
+                            <select class="form-control" id="inventory" wire:model.live='inventory' disabled>
                                 <option>Pilih Inventory</option>
                                 @foreach ($invent as $item)
                                     <option value="{{ $item->id }}">{{ $item->name }}</option>
@@ -242,13 +245,13 @@
                         <div class="form-group">
                             <label for="quantity">Quantity</label>
                             <input type="number" class="form-control" id="quantity" placeholder="Enter quantity"
-                                wire:model.live='quantity'>
+                                wire:model.live='quantity' disabled>
                         </div>
 
                         <div class="form-group">
                             <label for="price">Price</label>
                             <input type="number" class="form-control" id="price" placeholder="Enter price"
-                                wire:model.live='price'>
+                                wire:model.live='price' disabled>
                         </div>
 
                         <div class="form-group">

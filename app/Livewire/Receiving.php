@@ -20,21 +20,16 @@ class Receiving extends Component
         $lastRecord = ModelsReceiving::where('receiving_id', 'like', "%" . "RCV{$year}" . "%")
             ->orderBy('id', 'desc')
             ->first();
-
-        // dd($lastRecord);
-
         // jika masih kosong sama sekali
-
         if (is_null($lastRecord)) {
             $newNumber = '00001';
             return "RCV{$year}{$newNumber}";
         }
-
         // jika sudah pernah ada dalam db
         if ($lastRecord) {
             $lastNumber = (int)substr($lastRecord->receiving_id, -5);
             $newNumber = str_pad($lastNumber + 1, 5, '0', STR_PAD_LEFT);
-            return "RCV{$newNumber}";
+            return "RCV{$year}{$newNumber}";
         }
     }
 
@@ -62,9 +57,7 @@ class Receiving extends Component
 
     public function store()
     {
-
         $tempCode = $this->generateUniqueCode();
-
         $this->validate([
             'date' => 'required',
             'suppliers' => 'required',
@@ -78,13 +71,16 @@ class Receiving extends Component
             'date' => $this->date,
             'receiving_id' => $tempCode,
             'supplier_id' => $this->suppliers,
-            'remarks' => $this->remarks,
+            'remark' => $this->remarks,
             'insert_by' => auth()->user()->name,
             'insert_date' => Carbon::now()
         ]);
 
+        $getLastReceiving = ModelsReceiving::orderBy('id', 'desc')->select('id')->first();
+
         ModelsReceivingDetail::create([
-            'receiving_id' => $tempCode,
+            'receiving_id' => $getLastReceiving->id,
+            'receiving_code' => $tempCode,
             'inventory_id' => $this->inventory,
             'qty' => $this->quantity,
             'price' => $this->price,
@@ -92,9 +88,25 @@ class Receiving extends Component
             'insert_date' => Carbon::now(),
             'insert_by' => auth()->user()->name
         ]);
-
         $this->saveState = false;
+        $this->reset(['code', 'date', 'suppliers', 'remarks', 'inventory', 'quantity', 'price', 'priceQuantity']);
+        $this->dispatch('formSubmitted');
     }
+
+    public function showDetail($id)
+    {
+        dd('anjay detail');
+        // // $this->receivingID = $id;
+        // $data =  ModelsReceivingDetail::where('receiving_code', $id)->get();
+        // $this->quantity = $data->qty;
+    }
+
+    public function edit($id)
+    {
+        dd('anjay');
+    }
+
+
     public function render()
     {
         // kalkulasi harga dan stok
@@ -104,11 +116,11 @@ class Receiving extends Component
 
         $suppliersDB = Suppliers::select('name', 'id')->get();
         $inventoryDB = Inventory::select('name', 'id')->get();
-
-
+        $data = ModelsReceiving::all();
         return view('livewire.receiving', [
             "supp" => $suppliersDB,
             "invent" => $inventoryDB,
+            "data" => $data
         ]);
     }
 }

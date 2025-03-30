@@ -30,4 +30,9 @@ class Suppliers extends Model
         'insert_date' => 'datetime',
         'last_update_time' => 'datetime'
     ];
+
+    public function receivings()
+    {
+        return $this->hasMany(Receiving::class, 'supplier_id');
+    }
 }

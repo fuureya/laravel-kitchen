@@ -27,25 +27,31 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- @foreach ($uoms as $uom)
+                            @foreach ($data as $datas)
                                 <tr>
-                                    <td>{{ $uom->id }}</td>
-                                    <td>{{ $uom->name }}</td>
-                                    <td>{{ $uom->insert_by }}</td>
-                                    <td>{{ $uom->insert_time }}</td>
-                                    <td>{{ $uom->last_update_by }}</td>
-                                    <td>{{ $uom->last_update_time }}</td>
+                                    <td>{{ $datas->id }}</td>
+                                    <td>{{ $datas->date }}</td>
+                                    <td>{{ $datas->remark }}</td>
+                                    <td>{{ $datas->supplier->name }}</td>
+                                    <td>{{ $datas->insert_by }}</td>
+                                    <td>{{ $datas->insert_date }}</td>
+                                    <td>{{ $datas->last_update_by }}</td>
+                                    <td>{{ $datas->last_update_time }}</td>
                                     <td>
-                                        <button wire:click="edit({{ $uom->id }})" class="btn"
+                                        <button wire:click="showDetail('{{ $datas->receiving_id }}')" class="btn"
                                             data-toggle="modal" data-target="#modalEdit"> <i
-                                                class="fas fa-edit text-success"></i>
-                                        </button>
-                                        <button wire:click="delete({{ $uom->id }})" class="btn"
-                                            wire:confirm="Yakin Ingin Menghapus?"><i
-                                                class="fas fa-trash text-danger"></i></button>
+                                                class="fas fa-eye text-primary"></i>
+                                            </>
+                                            <button wire:click="edit({{ $datas->id }})" class="btn"
+                                                data-toggle="modal" data-target="#modalEdit"> <i
+                                                    class="fas fa-edit text-success"></i>
+                                            </button>
+                                            <button wire:click="delete({{ $datas->id }})" class="btn"
+                                                wire:confirm="Yakin Ingin Menghapus?"><i
+                                                    class="fas fa-trash text-danger"></i></button>
                                     </td>
                                 </tr>
-                            @endforeach --}}
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -148,6 +154,64 @@
     <!-- Modal Tambah Detail -->
     <div class="modal fade" id="modalAddDetail" data-backdrop="static" data-keyboard="false" tabindex="-1"
         aria-labelledby="modalAddDetailLabel" aria-hidden="true" wire:ignore.self>
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalEditLabel">Add Detail Record</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                @if ($errors->any())
+                    @foreach ($errors->all() as $error)
+                        <div class="alert alert-danger" role="alert">
+                            {{ $error }}
+                        </div>
+                    @endforeach
+                @endif
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="inventory">Inventory</label>
+                            <select class="form-control" id="inventory" wire:model.live='inventory'>
+                                <option>Pilih Inventory</option>
+                                @foreach ($invent as $item)
+                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="quantity">Quantity</label>
+                            <input type="number" class="form-control" id="quantity" placeholder="Enter quantity"
+                                wire:model.live='quantity'>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="price">Price</label>
+                            <input type="number" class="form-control" id="price" placeholder="Enter price"
+                                wire:model.live='price'>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="price_quantity">Price Quantity</label>
+                            <input type="number" class="form-control" id="price_quantity"
+                                placeholder="Enter Price Quantity" wire:model.live='priceQuantity' disabled>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                        wire:click='closeDetail'>Close</button>
+                    <button type="button" class="btn btn-primary" wire:click='enableSaving'>Simpan Detail</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- show detail receiving --}}
+    <div class="modal fade" id="modalShowDetail" data-backdrop="static" data-keyboard="false" tabindex="-1"
+        aria-labelledby="modalShowDetailLabel" aria-hidden="true" wire:ignore.self>
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">

@@ -106,6 +106,18 @@ return new class extends Migration {
             $table->timestamp('last_update_time')->nullable();
             $table->timestamps();
         });
+
+        // Recipe  Table
+        Schema::create('recipe', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->longText('recipes');
+            $table->timestamp('insert_time');
+            $table->string('insert_by');
+            $table->string('update_by');
+            $table->timestamp('last_update_time')->nullable();
+            $table->timestamps();
+        });
     }
 
     public function down()
@@ -116,5 +128,8 @@ return new class extends Migration {
         Schema::dropIfExists('uoms');
         Schema::dropIfExists('hak_akses');
         Schema::dropIfExists('group_akses');
+        Schema::dropIfExists('receiving');
+        Schema::dropIfExists('receciving_detail');
+        Schema::dropIfExists('recipes');
     }
 };

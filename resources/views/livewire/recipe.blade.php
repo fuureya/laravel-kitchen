@@ -77,7 +77,7 @@
 
                         <div class="form-group">
                             <label for="name">Write Recipe</label>
-                            <div id="summernote"></div>
+                            <textarea id="recipes" wire:model='recipes'></textarea>
                         </div>
                     </form>
                 </div>
@@ -124,16 +124,15 @@
 
 @script
     <script>
-        $('#summernote').summernote({
-            placeholder: 'Hello Bootstrap 4',
+        $('#recipes').summernote({
             tabsize: 2,
             height: 400,
             toolbar: [
                 ['style', ['bold', 'italic', 'underline', 'clear']],
                 ['font', ['strikethrough', 'superscript', 'subscript']],
                 ['para', ['ul', 'ol', 'paragraph']],
-                ['insert', ['link', 'picture', 'table']], // Removed video, embed code
-                ['view', ['codeview']] // Removed fullscreen and help
+                ['insert', ['link', 'picture', 'table']],
+                ['view', ['codeview']]
             ]
         });
     </script>

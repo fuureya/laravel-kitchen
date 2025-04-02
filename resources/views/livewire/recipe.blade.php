@@ -39,7 +39,7 @@
                                             <button wire:click="detail({{ $rp->id }})" class="btn"
                                                 data-toggle="modal" data-target="#modalDetail"><i
                                                     class="fas fa-eye text-primary"></i></button>
-                                            <button wire:click="edit({{ $rp->id }})" class="btn"
+                                            <button wire:click="edit({{ $rp->id }})" id="clickedit" class="btn"
                                                 data-toggle="modal" data-target="#modalEdit"><i
                                                     class="fas fa-edit text-success"></i></button>
                                             <button wire:click="delete({{ $rp->id }})" class="btn"
@@ -112,20 +112,29 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form id="edit">
                         <div class="form-group">
-                            <label for="name">Category Name</label>
+                            <label for="name">Recipe Name</label>
                             <input type="text" class="form-control" id="name" placeholder="Enter Name"
                                 wire:model="name">
                         </div>
 
+                        <div class="form-group">
+                            <label for="name">Write Recipe</label>
+                            <textarea id="recipesedit">
+                                {{-- {!! $recipes !!} --}}
+                            </textarea>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                wire:click="closeModal">Close</button>
+                            <button type="submit" class="btn btn-primary" wire:click="update">Save
+                                Recipe</button>
+                        </div>
                     </form>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                        wire:click="closeModal">Close</button>
-                    <button type="button" class="btn btn-primary" wire:click="update">Update Category</button>
-                </div>
+
             </div>
         </div>
     </div>
@@ -160,21 +169,9 @@
     <script>
         $(document).ready(function() {
 
-            // global initial note
-            $('#recipes').summernote({
-                tabsize: 2,
-                height: 400,
-                toolbar: [
-                    ['style', ['bold', 'italic', 'underline', 'clear']],
-                    ['font', ['strikethrough', 'superscript', 'subscript']],
-                    ['para', ['ul', 'ol', 'paragraph']],
-                    ['insert', ['link', 'picture', 'table']],
-                    ['view', ['codeview']]
-                ]
-            });
-
-            $('#clickAdd').on('click', function() {
-                $('#recipes').summernote({
+            // Function to initialize Summernote with the proper ID
+            function initializeSummernote(selector) {
+                $(selector).summernote({
                     tabsize: 2,
                     height: 400,
                     toolbar: [
@@ -185,15 +182,39 @@
                         ['view', ['codeview']]
                     ]
                 });
-            })
+            }
 
-            $('#store').on('submit', function() {
+            // Initialize Summernote for Add modal
+            $('#clickAdd').on('click', function() {
+                $('#recipes').summernote('destroy');
+                initializeSummernote('#recipes');
+            });
+
+            // Initialize Summernote for Edit modal and load content for editing
+            $('#modalEdit').on('shown.bs.modal', function() {
+                $('#recipesedit').summernote('destroy');
+                initializeSummernote('#recipesedit');
+
+                $('#recipesedit').summernote('code', @this.recipes);
+            });
+
+            // Handle form submit and store recipe content
+            $('#store').on('submit', function(e) {
+                e.preventDefault();
                 @this.recipes = $('#recipes').val();
             });
 
+            $('#edit').on('submit', function(e) {
+                e.preventDefault();
+                @this.recipes = $('#recipesedit').val();
+            });
+
+
             Livewire.on('formSubmitted', () => {
                 $('#modalAdd').modal('hide');
+                $('#modalEdit').modal('hide');
             });
+
         });
     </script>
 @endscript

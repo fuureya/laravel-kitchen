@@ -11,7 +11,7 @@ class Recipe extends Component
 {
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
-    public $name, $recipes;
+    public $name, $recipes, $token;
 
 
     public function store()
@@ -35,6 +35,12 @@ class Recipe extends Component
         $this->dispatch('formSubmitted');
     }
 
+    public function delete($id)
+    {
+        ModelsRecipe::find($id)->delete();
+        session()->flash('message', 'Record Deleted Successfully.');
+    }
+
     public function detail($id)
     {
         $data = ModelsRecipe::find($id);
@@ -42,9 +48,37 @@ class Recipe extends Component
         $this->recipes = $data->recipes;
     }
 
+    public function edit($id)
+    {
+        $data = ModelsRecipe::find($id);
+        $this->token = $data->id;
+        $this->name = $data->name;
+        $this->recipes = $data->recipes;
+    }
+
+    public function update()
+    {
+        $this->validate([
+            'name' => 'required',
+            'recipes' => 'required'
+        ]);
+
+        $data = ModelsRecipe::find($this->token);
+        $data->update([
+            'name' => $this->name,
+            'recipes' => $this->recipes,
+            'update_by' => Carbon::now(),
+            'last_update_time' => Carbon::now()
+        ]);
+
+        $this->reset(['name', 'recipes', 'token']);
+        session()->flash('message', 'Record Updated Successfully.');
+        $this->dispatch('formSubmitted');
+    }
+
     public function closeModal()
     {
-        $this->reset(['name', 'recipes']);
+        $this->reset(['name', 'recipes', 'token']);
     }
 
     public function render()

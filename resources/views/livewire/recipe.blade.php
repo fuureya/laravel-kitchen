@@ -25,31 +25,36 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- @foreach ($categories as $category)
+                            @foreach ($data as $rp)
                                 <tr>
-                                    <td>{{ $category->id }}</td>
-                                    <td>{{ $category->name }}</td>
-                                    <td>{{ $category->insert_by }}</td>
-                                    <td>{{ $category->insert_time }}</td>
-                                    <td>{{ $category->last_update_by }}</td>
-                                    <td>{{ $category->last_update_time }}</td>
+                                    <td>{{ $rp->id }}</td>
+                                    <td>{{ $rp->name }}</td>
+                                    <td>{{ $rp->insert_by }}</td>
+                                    <td>{{ $rp->insert_time }}</td>
+                                    <td>{{ $rp->last_update_by }}</td>
+                                    <td>{{ $rp->last_update_time }}</td>
                                     <td>
-                                        <button wire:click="edit({{ $category->id }})" class="btn"
-                                            data-toggle="modal" data-target="#modalEdit"><i
-                                                class="fas fa-edit text-success"></i></button>
-                                        <button wire:click="delete({{ $category->id }})" class="btn"
-                                            wire:confirm="Yakin Ingin Menghapus?"><i
-                                                class="fas fa-trash text-danger"></i></button>
+                                        <div class="d-flex justify-content-center">
+                                            <button wire:click="detail({{ $rp->id }})" class="btn"
+                                                data-toggle="modal" data-target="#modalDetail"><i
+                                                    class="fas fa-eye text-primary"></i></button>
+                                            <button wire:click="edit({{ $rp->id }})" class="btn"
+                                                data-toggle="modal" data-target="#modalEdit"><i
+                                                    class="fas fa-edit text-success"></i></button>
+                                            <button wire:click="delete({{ $rp->id }})" class="btn"
+                                                wire:confirm="Yakin Ingin Menghapus?"><i
+                                                    class="fas fa-trash text-danger"></i></button>
+                                        </div>
                                     </td>
                                 </tr>
-                            @endforeach --}}
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
 
                 <!-- Pagination -->
                 <div class="mt-4">
-                    {{-- {{ $categories->links() }} --}}
+                    {{ $data->links() }}
                 </div>
             </div>
         </div>
@@ -84,7 +89,8 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"
                         wire:click="closeModal">Close</button>
-                    <button type="button" class="btn btn-primary" wire:click="store()">Save Recipe</button>
+                    <button type="button" class="btn btn-primary" id="store" wire:click="store()">Save
+                        Recipe</button>
                 </div>
             </div>
         </div>
@@ -120,20 +126,75 @@
             </div>
         </div>
     </div>
+
+
+    <!-- Detail Modal -->
+    <div class="modal fade" id="modalDetail" data-backdrop="static" data-keyboard="false" tabindex="-1"
+        aria-labelledby="modalDetailLabel" aria-hidden="true" wire:ignore.self>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalEditLabel">Recipe {{ $name }}</h5>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                        wire:click="closeModal">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {!! $recipes !!}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                        wire:click="closeModal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 @script
     <script>
-        $('#recipes').summernote({
-            tabsize: 2,
-            height: 400,
-            toolbar: [
-                ['style', ['bold', 'italic', 'underline', 'clear']],
-                ['font', ['strikethrough', 'superscript', 'subscript']],
-                ['para', ['ul', 'ol', 'paragraph']],
-                ['insert', ['link', 'picture', 'table']],
-                ['view', ['codeview']]
-            ]
+        $(document).ready(function() {
+            // Initialize Summernote only once and ensure it's not destroyed on modal hide
+            function initializeSummernote() {
+                if ($('#recipes').summernote('isNotInitialized')) {
+                    $('#recipes').summernote({
+                        tabsize: 2,
+                        height: 400,
+                        toolbar: [
+                            ['style', ['bold', 'italic', 'underline', 'clear']],
+                            ['font', ['strikethrough', 'superscript', 'subscript']],
+                            ['para', ['ul', 'ol', 'paragraph']],
+                            ['insert', ['link', 'picture', 'table']],
+                            ['view', ['codeview']]
+                        ]
+                    });
+                }
+            }
+
+            // Initialize Summernote when the page is ready
+            initializeSummernote();
+
+            // Re-initialize Summernote when modal is shown
+            $('#modalAdd').on('shown.bs.modal', function() {
+                initializeSummernote(); // Initialize only if not already initialized
+            });
+
+            // On 'Store' button click, save the recipes data from Summernote to Livewire
+            $('#store').on('click', function() {
+                @this.recipes = $('#recipes').val(); // Save the content to Livewire property
+            });
+
+            // After form is submitted, close the modal
+            Livewire.on('formSubmitted', () => {
+                $('#modalAdd').modal('hide');
+            });
+
+            // Destroy Summernote when modal is hidden
+            $('#modalAdd').on('hidden.bs.modal', function() {
+                $('#recipes').summernote('destroy'); // Only destroy if modal is hidden
+            });
         });
     </script>
 @endscript

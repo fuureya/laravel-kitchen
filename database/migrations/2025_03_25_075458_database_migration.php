@@ -108,13 +108,13 @@ return new class extends Migration {
         });
 
         // Recipe  Table
-        Schema::create('recipe', function (Blueprint $table) {
+        Schema::create('recipes', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->longText('recipes');
             $table->timestamp('insert_time');
             $table->string('insert_by');
-            $table->string('update_by');
+            $table->string('update_by')->nullable();
             $table->timestamp('last_update_time')->nullable();
             $table->timestamps();
         });

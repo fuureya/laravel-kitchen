@@ -6,6 +6,11 @@
                     class="img-fluid" alt="Sample image">
             </div>
             <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+                @if (session()->has('error'))
+                    <div class="alert alert-danger">
+                        {{ session('error') }}
+                    </div>
+                @endif
                 <form wire:submit.prevent='login'>
                     <div data-mdb-input-init class="form-outline mb-4">
                         <input type="text" id="username" class="form-control form-control-lg"

@@ -10,7 +10,9 @@
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.dataTables.css" />
+    <link rel="stylesheet" href="{{ asset('template/summernote/summernote-bs4.css') }}">
     <link href="{{ asset('template/css/sb-admin-2.min.css') }}" rel="stylesheet">
+
     @livewireStyles
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <title>{{ $title ?? 'Page Title' }}</title>
@@ -62,6 +64,7 @@
     <script src="{{ asset('template/vendor/chart.js/Chart.min.js') }}"></script>
     <script src="{{ asset('template/js/demo/chart-area-demo.js') }}"></script>
     <script src="{{ asset('template/js/demo/chart-pie-demo.js') }}"></script>
+    <script src="{{ asset('template/summernote/summernote-bs4.js') }}"></script>
     <script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
 
 </body>

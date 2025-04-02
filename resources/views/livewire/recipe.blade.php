@@ -7,7 +7,8 @@
             <div class="card-body py-3">
                 <div class="my-5">
                     <h4 class="font-weight-bold text-primary">Recipes</h4>
-                    <button type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#modalAdd">
+                    <button type="button" class="btn btn-primary mt-3" id="clickAdd" data-toggle="modal"
+                        data-target="#modalAdd">
                         <i class="fas fa-plus"></i> Add Recipes
                     </button>
                 </div>
@@ -66,14 +67,14 @@
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalAddLabel">Add New R</h5>
+                    <h5 class="modal-title" id="modalAddLabel">Add New Recipe</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"
                         wire:click="closeModal">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form id="store">
                         <div class="form-group">
                             <label for="name">Recipe Name</label>
                             <input type="text" class="form-control" id="name" placeholder="Enter Name"
@@ -84,14 +85,16 @@
                             <label for="name">Write Recipe</label>
                             <textarea id="recipes" wire:model='recipes'></textarea>
                         </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                wire:click="closeModal">Close</button>
+                            <button type="submit" class="btn btn-primary" wire:click="store()">Save
+                                Recipe</button>
+                        </div>
                     </form>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                        wire:click="closeModal">Close</button>
-                    <button type="button" class="btn btn-primary" id="store" wire:click="store()">Save
-                        Recipe</button>
-                </div>
+
             </div>
         </div>
     </div>
@@ -99,7 +102,7 @@
     <!-- Edit Modal -->
     <div class="modal fade" id="modalEdit" data-backdrop="static" data-keyboard="false" tabindex="-1"
         aria-labelledby="modalEditLabel" aria-hidden="true" wire:ignore.self>
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalEditLabel">Edit Category</h5>
@@ -131,7 +134,7 @@
     <!-- Detail Modal -->
     <div class="modal fade" id="modalDetail" data-backdrop="static" data-keyboard="false" tabindex="-1"
         aria-labelledby="modalDetailLabel" aria-hidden="true" wire:ignore.self>
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalEditLabel">Recipe {{ $name }}</h5>
@@ -156,44 +159,40 @@
 @script
     <script>
         $(document).ready(function() {
-            // Initialize Summernote only once and ensure it's not destroyed on modal hide
-            function initializeSummernote() {
-                if ($('#recipes').summernote('isNotInitialized')) {
-                    $('#recipes').summernote({
-                        tabsize: 2,
-                        height: 400,
-                        toolbar: [
-                            ['style', ['bold', 'italic', 'underline', 'clear']],
-                            ['font', ['strikethrough', 'superscript', 'subscript']],
-                            ['para', ['ul', 'ol', 'paragraph']],
-                            ['insert', ['link', 'picture', 'table']],
-                            ['view', ['codeview']]
-                        ]
-                    });
-                }
-            }
 
-            // Initialize Summernote when the page is ready
-            initializeSummernote();
-
-            // Re-initialize Summernote when modal is shown
-            $('#modalAdd').on('shown.bs.modal', function() {
-                initializeSummernote(); // Initialize only if not already initialized
+            // global initial note
+            $('#recipes').summernote({
+                tabsize: 2,
+                height: 400,
+                toolbar: [
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['font', ['strikethrough', 'superscript', 'subscript']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['insert', ['link', 'picture', 'table']],
+                    ['view', ['codeview']]
+                ]
             });
 
-            // On 'Store' button click, save the recipes data from Summernote to Livewire
-            $('#store').on('click', function() {
-                @this.recipes = $('#recipes').val(); // Save the content to Livewire property
+            $('#clickAdd').on('click', function() {
+                $('#recipes').summernote({
+                    tabsize: 2,
+                    height: 400,
+                    toolbar: [
+                        ['style', ['bold', 'italic', 'underline', 'clear']],
+                        ['font', ['strikethrough', 'superscript', 'subscript']],
+                        ['para', ['ul', 'ol', 'paragraph']],
+                        ['insert', ['link', 'picture', 'table']],
+                        ['view', ['codeview']]
+                    ]
+                });
+            })
+
+            $('#store').on('submit', function() {
+                @this.recipes = $('#recipes').val();
             });
 
-            // After form is submitted, close the modal
             Livewire.on('formSubmitted', () => {
                 $('#modalAdd').modal('hide');
-            });
-
-            // Destroy Summernote when modal is hidden
-            $('#modalAdd').on('hidden.bs.modal', function() {
-                $('#recipes').summernote('destroy'); // Only destroy if modal is hidden
             });
         });
     </script>

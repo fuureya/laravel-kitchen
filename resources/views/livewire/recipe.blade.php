@@ -6,10 +6,9 @@
             @endif
             <div class="card-body py-3">
                 <div class="my-5">
-                    <h4 class="font-weight-bold text-primary">Categories</h4>
-                    <button type="button" class="btn btn-primary mt-3" wire:click="openModal" data-toggle="modal"
-                        data-target="#modalAdd">
-                        <i class="fas fa-plus"></i> Add Category
+                    <h4 class="font-weight-bold text-primary">Recipes</h4>
+                    <button type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#modalAdd">
+                        <i class="fas fa-plus"></i> Add Recipes
                     </button>
                 </div>
                 <div class="table-responsive">
@@ -59,10 +58,10 @@
     <!-- Add Modal -->
     <div class="modal fade" id="modalAdd" data-backdrop="static" data-keyboard="false" tabindex="-1"
         aria-labelledby="modalAddLabel" aria-hidden="true" wire:ignore.self>
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalAddLabel">Add New Category</h5>
+                    <h5 class="modal-title" id="modalAddLabel">Add New R</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"
                         wire:click="closeModal">
                         <span aria-hidden="true">&times;</span>
@@ -71,16 +70,21 @@
                 <div class="modal-body">
                     <form>
                         <div class="form-group">
-                            <label for="name">Category Name</label>
+                            <label for="name">Recipe Name</label>
                             <input type="text" class="form-control" id="name" placeholder="Enter Name"
                                 wire:model="name">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="name">Write Recipe</label>
+                            <div id="summernote"></div>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"
                         wire:click="closeModal">Close</button>
-                    <button type="button" class="btn btn-primary" wire:click="store()">Save Category</button>
+                    <button type="button" class="btn btn-primary" wire:click="store()">Save Recipe</button>
                 </div>
             </div>
         </div>
@@ -117,3 +121,20 @@
         </div>
     </div>
 </div>
+
+@script
+    <script>
+        $('#summernote').summernote({
+            placeholder: 'Hello Bootstrap 4',
+            tabsize: 2,
+            height: 400,
+            toolbar: [
+                ['style', ['bold', 'italic', 'underline', 'clear']],
+                ['font', ['strikethrough', 'superscript', 'subscript']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['insert', ['link', 'picture', 'table']], // Removed video, embed code
+                ['view', ['codeview']] // Removed fullscreen and help
+            ]
+        });
+    </script>
+@endscript

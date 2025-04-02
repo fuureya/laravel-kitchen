@@ -7,9 +7,11 @@
             <div class="card-body py-3">
                 <div class="my-5">
                     <h4 class="font-weight-bold text-primary">Kelola Hak Akses</h4>
-                    <button type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#modalAdd">
-                        <i class="fas fa-plus"></i>
-                    </button>
+                    @if (in_array('view-hak-akses', auth()->user()->permissions))
+                        <button type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#modalAdd">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    @endif
                 </div>
                 <div class="table-responsive">
                     <table class="table table-bordered" style="width:100%">
@@ -28,13 +30,17 @@
                                     <td>{{ $item->name }}</td>
                                     <td>{{ $item->created_at->format('Y-m-d H:i') }}</td>
                                     <td>
-                                        <button wire:click="edit({{ $item->id }})" class="btn btn-success"
-                                            data-toggle="modal" data-target="#modalEdit">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <button wire:click="delete({{ $item->id }})" class="btn btn-danger">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
+                                        @if (in_array('update-hak-akses', auth()->user()->permissions))
+                                            <button wire:click="edit({{ $item->id }})" class="btn btn-success"
+                                                data-toggle="modal" data-target="#modalEdit">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                        @endif
+                                        @if (in_array('hapus-hak-akses', auth()->user()->permissions))
+                                            <button wire:click="delete({{ $item->id }})" class="btn btn-danger">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach

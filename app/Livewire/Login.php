@@ -17,7 +17,7 @@ class Login extends Component
 
         if (Auth::attempt($credential)) {
             session()->regenerate();
-            return redirect()->intended('/');
+            return redirect()->intended('/dashboard');
         } else {
             session()->flash('error', 'Username atau Password salah.');
         }

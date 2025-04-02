@@ -7,10 +7,12 @@
             <div class="card-body py-3">
                 <div class="my-5">
                     <h4 class="font-weight-bold text-primary">Inventory Management</h4>
-                    <button type="button" class="btn btn-primary mt-3" wire:click="openModal" data-toggle="modal"
-                        data-target="#modalAdd">
-                        <i class="fas fa-plus"></i> Add Inventory
-                    </button>
+                    @if (in_array('tambah-inventory', auth()->user()->permissions))
+                        <button type="button" class="btn btn-primary mt-3" wire:click="openModal" data-toggle="modal"
+                            data-target="#modalAdd">
+                            <i class="fas fa-plus"></i> Add Inventory
+                        </button>
+                    @endif
                 </div>
                 <div class="table-responsive">
                     <table class="table table-bordered" style="width:100%">
@@ -50,14 +52,18 @@
                                     <td>{{ $inventory->last_update_by }}</td>
                                     <td>{{ $inventory->last_update_time }}</td>
                                     <td>
-                                        <button wire:click="edit({{ $inventory->id }})" class="btn"
-                                            data-toggle="modal" data-target="#modalEdit">
-                                            <i class="fas fa-edit text-success"></i>
-                                        </button>
-                                        <button wire:click="delete({{ $inventory->id }})" class="btn"
-                                            wire:confirm="Are you sure you want to delete this item?">
-                                            <i class="fas fa-trash text-danger"></i>
-                                        </button>
+                                        @if (in_array('update-inventory', auth()->user()->permissions))
+                                            <button wire:click="edit({{ $inventory->id }})" class="btn"
+                                                data-toggle="modal" data-target="#modalEdit">
+                                                <i class="fas fa-edit text-success"></i>
+                                            </button>
+                                        @endif
+                                        @if (in_array('hapus-inventory', auth()->user()->permissions))
+                                            <button wire:click="delete({{ $inventory->id }})" class="btn"
+                                                wire:confirm="Are you sure you want to delete this item?">
+                                                <i class="fas fa-trash text-danger"></i>
+                                            </button>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach

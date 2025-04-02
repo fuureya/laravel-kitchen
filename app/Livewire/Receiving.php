@@ -8,9 +8,13 @@ use App\Models\ReceivingDetail as ModelsReceivingDetail;
 use App\Models\Suppliers;
 use Carbon\Carbon;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Receiving extends Component
 {
+    use WithPagination;
+    protected $paginationTheme = 'bootstrap';
+
     public $code, $receivingID, $date, $suppliers, $remarks, $inventory, $quantity = 0, $price = 0, $priceQuantity = 0;
     public $saveState = false;
 
@@ -91,7 +95,9 @@ class Receiving extends Component
         ]);
         $this->saveState = false;
         $this->reset(['code', 'date', 'suppliers', 'remarks', 'inventory', 'quantity', 'price', 'priceQuantity']);
-        $this->dispatch('formSubmitted');
+        // $this->dispatch('formSubmitted');
+        session()->flash('message', 'Receiving item added successfully.');
+        return redirect('/receiving');
     }
 
     public function showDetail($id)
@@ -159,7 +165,7 @@ class Receiving extends Component
 
         $suppliersDB = Suppliers::select('name', 'id')->get();
         $inventoryDB = Inventory::select('name', 'id')->get();
-        $data = ModelsReceiving::all();
+        $data = ModelsReceiving::paginate(10);
         return view('livewire.receiving', [
             "supp" => $suppliersDB,
             "invent" => $inventoryDB,

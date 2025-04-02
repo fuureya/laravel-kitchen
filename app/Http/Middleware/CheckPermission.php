@@ -9,16 +9,25 @@ use Illuminate\Support\Facades\Gate;
 
 class CheckPermission
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     */
+
+    // public function handle()
+    // {
+    //     if (in_array('view-dashboard', auth()->user()->permissions)) {
+    //         dd('telaso');
+    //     }
+    // }
+
     public function handle(Request $request, Closure $next, $permission): Response
     {
-        if (!Gate::allows($permission)) {
+        $user = auth()->user();
+        if (!$user) {
             abort(403, 'Unauthorized');
         }
+        $permissions = is_array($user->permissions) ? $user->permissions : json_decode($user->permissions ?? '[]', true);
+        if (!in_array($permission, $permissions)) {
+            abort(403, 'Tidak Ada Akses');
+        }
+
         return $next($request);
     }
 }

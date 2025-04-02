@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
 
@@ -12,6 +13,67 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $hakAkses = [
+            'view-dashboard',
+            'view-uoms',
+            'tambah-uoms',
+            'update-uoms',
+            'hapus-uoms',
+            'view-category',
+            'tambah-category',
+            'update-category',
+            'hapus-category',
+
+            'view-inventory',
+            'tambah-inventory',
+            'update-inventory',
+            'hapus-inventory',
+
+            'view-suppliers',
+            'tambah-suppliers',
+            'update-suppliers',
+            'hapus-suppliers',
+
+            'view-receiving',
+            'tambah-receiving',
+            'update-receiving',
+            'hapus-receiving',
+
+            'view-recipe',
+            'tambah-recipe',
+            'update-recipe',
+            'hapus-recipe',
+
+            'view-hak-akses',
+            'tambah-hak-akses',
+            'update-hak-akses',
+            'hapus-hak-akses',
+
+            'view-atur-grup',
+            'tambah-atur-grup',
+            'update-atur-grup',
+            'hapus-atur-grup',
+
+            'view-atur-user',
+            'tambah-atur-user',
+            'update-atur-user',
+            'hapus-atur-user',
+        ];
+        $now = Carbon::now();
+
+        foreach ($hakAkses as $akses) {
+            DB::table('hak_akses')->insert([
+                'name' => $akses,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ]);
+        }
+
+        DB::table('group_akses')->insert([
+            'name' => 'Administrator',
+            'permissions' => json_encode($hakAkses)
+        ]);
+
         // Seeder untuk tabel UOM
         DB::table('uoms')->insert([
             ['name' => 'Kilogram', 'insert_by' => 'Admin', 'insert_time' => now()],
@@ -41,10 +103,11 @@ class DatabaseSeeder extends Seeder
         ]);
 
         DB::table('users')->insert([
-            'name' => 'Less Paul',
+            'name' => 'Marsha Lanathea Lapian',
             'username' => 'administrator',
             'password' => bcrypt('administrator'),
-            'group' => 'laguna group',
+            'group' => 'Administrator',
+            'permissions' => json_encode($hakAkses)
 
         ]);
     }

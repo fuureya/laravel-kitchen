@@ -7,10 +7,14 @@
             <div class="card-body py-3">
                 <div class="my-5">
                     <h4 class="font-weight-bold text-primary">Unit Of Measurement</h4>
-                    <button type="button" class="btn btn-primary mt-3" wire:click="openModal" data-toggle="modal"
-                        data-target="#modalAdd">
-                        <i class="fas fa-plus"></i>
-                    </button>
+                    @auth
+                        @if (in_array('tambah-uoms', auth()->user()->permissions))
+                            <button type="button" class="btn btn-primary mt-3" wire:click="openModal" data-toggle="modal"
+                                data-target="#modalAdd">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        @endif
+                    @endauth
                 </div>
                 <div class="table-responsive">
                     <table class="table table-bordered" style="width:100%">
@@ -35,13 +39,17 @@
                                     <td>{{ $uom->last_update_by }}</td>
                                     <td>{{ $uom->last_update_time }}</td>
                                     <td>
-                                        <button wire:click="edit({{ $uom->id }})" class="btn"
-                                            data-toggle="modal" data-target="#modalEdit"> <i
-                                                class="fas fa-edit text-success"></i>
-                                        </button>
-                                        <button wire:click="delete({{ $uom->id }})" class="btn"
-                                            wire:confirm="Yakin Ingin Menghapus?"><i
-                                                class="fas fa-trash text-danger"></i></button>
+                                        @if (in_array('update-uoms', auth()->user()->permissions))
+                                            <button wire:click="edit({{ $uom->id }})" class="btn"
+                                                data-toggle="modal" data-target="#modalEdit"> <i
+                                                    class="fas fa-edit text-success"></i>
+                                            </button>
+                                        @endif
+                                        @if (in_array('hapus-uoms', auth()->user()->permissions))
+                                            <button wire:click="delete({{ $uom->id }})" class="btn"
+                                                wire:confirm="Yakin Ingin Menghapus?"><i
+                                                    class="fas fa-trash text-danger"></i></button>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach

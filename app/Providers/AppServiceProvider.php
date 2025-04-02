@@ -21,7 +21,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Gate::define('dashboard-access', function (User $user) {
-            return in_array('dashboard', $user->permissions);
+            return in_array('view-dashboard', $user->permissions);
         });
     }
 }

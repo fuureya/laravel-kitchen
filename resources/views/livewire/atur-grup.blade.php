@@ -7,9 +7,11 @@
             <div class="card-body py-3">
                 <div class="my-5">
                     <h4 class="font-weight-bold text-primary">Kelola Grup</h4>
-                    <button type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#modalAdd">
-                        <i class="fas fa-plus"></i> Tambah Grup
-                    </button>
+                    @if (in_array('tambah-atur-grup', auth()->user()->permissions))
+                        <button type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#modalAdd">
+                            <i class="fas fa-plus"></i> Tambah Grup
+                        </button>
+                    @endif
                 </div>
                 <div class="table-responsive">
                     <table class="table table-bordered">
@@ -28,16 +30,20 @@
                                     <td>{{ $index + 1 }}</td>
                                     <td>{{ $grup->name }}</td>
                                     <td>{{ implode(', ', json_decode($grup->permissions, true) ?? []) }}</td>
-                                    <td>{{ $grup->created_at->format('Y-m-d H:i') }}</td>
+                                    <td>{{ $grup->created_at }}</td>
                                     <td>
-                                        <button wire:click="edit({{ $grup->id }})" class="btn"
-                                            data-toggle="modal" data-target="#modalEdit">
-                                            <i class="fas fa-edit text-success"></i>
-                                        </button>
-                                        <button wire:click="delete({{ $grup->id }})" class="btn"
-                                            wire:confirm="Are you sure you want to delete this item?">
-                                            <i class="fas fa-trash text-danger"></i>
-                                        </button>
+                                        @if (in_array('update-atur-grup', auth()->user()->permissions))
+                                            <button wire:click="edit({{ $grup->id }})" class="btn"
+                                                data-toggle="modal" data-target="#modalEdit">
+                                                <i class="fas fa-edit text-success"></i>
+                                            </button>
+                                        @endif
+                                        @if (in_array('hapus-atur-grup', auth()->user()->permissions))
+                                            <button wire:click="delete({{ $grup->id }})" class="btn"
+                                                wire:confirm="Are you sure you want to delete this item?">
+                                                <i class="fas fa-trash text-danger"></i>
+                                            </button>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
@@ -75,8 +81,9 @@
                                 <div class="col-md-6">
                                     <div class="form-check">
                                         <input type="checkbox" class="form-check-input" wire:model="permissions"
-                                            value="{{ $item->name }}">
-                                        <label class="form-check-label">{{ $item->name }}</label>
+                                            value="{{ $item->name }}" id="check{{ $item->id }}">
+                                        <label class="form-check-label"
+                                            for="check{{ $item->id }}">{{ $item->name }}</label>
                                     </div>
                                 </div>
                             @endforeach

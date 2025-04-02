@@ -7,9 +7,12 @@
             <div class="card-body py-3">
                 <div class="my-5">
                     <h4 class="font-weight-bold text-primary">Kelola User</h4>
-                    <button type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#modalAdd">
-                        <i class="fas fa-plus"></i> Tambah User
-                    </button>
+
+                    @if (in_array('tambah-atur-user', auth()->user()->permissions))
+                        <button type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#modalAdd">
+                            <i class="fas fa-plus"></i> Tambah User
+                        </button>
+                    @endif
                 </div>
                 <div class="table-responsive">
                     <table class="table table-bordered" style="width:100%">
@@ -30,16 +33,24 @@
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->username }}</td>
                                     <td>{{ $user->group }}</td>
-                                    <td>{{ implode(', ', json_decode($user->permissions, true) ?? []) }}</td>
+                                    {{-- <td>{{ implode(', ', json_decode($user->permissions, true) ?? []) }}</td> --}}
+                                    <td>{{ implode(', ', is_string($user->permissions) ? json_decode($user->permissions, true) ?? [] : $user->permissions) }}
+                                    </td>
+
                                     <td>
-                                        <button class="btn" wire:click="edit({{ $user->id }})"
-                                            data-toggle="modal" data-target="#modalEdit">
-                                            <i class="fas fa-edit text-success"></i>
-                                        </button>
-                                        <button class="btn" wire:click="delete({{ $user->id }})"
-                                            onclick="confirm('Yakin ingin menghapus user ini?') || event.stopImmediatePropagation()">
-                                            <i class="fas fa-trash text-danger"></i>
-                                        </button>
+                                        @if (in_array('update-atur-user', auth()->user()->permissions))
+                                            <button class="btn" wire:click="edit({{ $user->id }})"
+                                                data-toggle="modal" data-target="#modalEdit">
+                                                <i class="fas fa-edit text-success"></i>
+                                            </button>
+                                        @endif
+
+                                        @if (in_array('hapus-atur-user', auth()->user()->permissions))
+                                            <button class="btn" wire:click="delete({{ $user->id }})"
+                                                onclick="confirm('Yakin ingin menghapus user ini?') || event.stopImmediatePropagation()">
+                                                <i class="fas fa-trash text-danger"></i>
+                                            </button>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach

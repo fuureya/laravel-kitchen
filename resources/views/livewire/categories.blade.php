@@ -8,10 +8,12 @@
             <div class="card-body py-3">
                 <div class="my-5">
                     <h4 class="font-weight-bold text-primary">Categories</h4>
-                    <button type="button" class="btn btn-primary mt-3" wire:click="openModal" data-toggle="modal"
-                        data-target="#modalAdd">
-                        <i class="fas fa-plus"></i> Add Category
-                    </button>
+                    @if (in_array('tambah-category', auth()->user()->permissions))
+                        <button type="button" class="btn btn-primary mt-3" wire:click="openModal" data-toggle="modal"
+                            data-target="#modalAdd">
+                            <i class="fas fa-plus"></i> Add Category
+                        </button>
+                    @endif
                 </div>
                 <div class="table-responsive">
                     <table class="table table-bordered" style="width:100%">
@@ -36,12 +38,16 @@
                                     <td>{{ $category->last_update_by }}</td>
                                     <td>{{ $category->last_update_time }}</td>
                                     <td>
-                                        <button wire:click="edit({{ $category->id }})" class="btn"
-                                            data-toggle="modal" data-target="#modalEdit"><i
-                                                class="fas fa-edit text-success"></i></button>
-                                        <button wire:click="delete({{ $category->id }})" class="btn"
-                                            wire:confirm="Yakin Ingin Menghapus?"><i
-                                                class="fas fa-trash text-danger"></i></button>
+                                        @if (in_array('update-category', auth()->user()->permissions))
+                                            <button wire:click="edit({{ $category->id }})" class="btn"
+                                                data-toggle="modal" data-target="#modalEdit"><i
+                                                    class="fas fa-edit text-success"></i></button>
+                                        @endif
+                                        @if (in_array('hapus-category', auth()->user()->permissions))
+                                            <button wire:click="delete({{ $category->id }})" class="btn"
+                                                wire:confirm="Yakin Ingin Menghapus?"><i
+                                                    class="fas fa-trash text-danger"></i></button>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach

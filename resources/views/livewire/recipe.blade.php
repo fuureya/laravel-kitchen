@@ -7,10 +7,12 @@
             <div class="card-body py-3">
                 <div class="my-5">
                     <h4 class="font-weight-bold text-primary">Recipes</h4>
-                    <button type="button" class="btn btn-primary mt-3" id="clickAdd" data-toggle="modal"
-                        data-target="#modalAdd">
-                        <i class="fas fa-plus"></i> Add Recipes
-                    </button>
+                    @if (in_array('tambah-recipe', auth()->user()->permissions))
+                        <button type="button" class="btn btn-primary mt-3" id="clickAdd" data-toggle="modal"
+                            data-target="#modalAdd">
+                            <i class="fas fa-plus"></i> Add Recipes
+                        </button>
+                    @endif
                 </div>
                 <div class="table-responsive">
                     <table class="table table-bordered" style="width:100%">
@@ -39,12 +41,17 @@
                                             <button wire:click="detail({{ $rp->id }})" class="btn"
                                                 data-toggle="modal" data-target="#modalDetail"><i
                                                     class="fas fa-eye text-primary"></i></button>
-                                            <button wire:click="edit({{ $rp->id }})" id="clickedit" class="btn"
-                                                data-toggle="modal" data-target="#modalEdit"><i
-                                                    class="fas fa-edit text-success"></i></button>
-                                            <button wire:click="delete({{ $rp->id }})" class="btn"
-                                                wire:confirm="Yakin Ingin Menghapus?"><i
-                                                    class="fas fa-trash text-danger"></i></button>
+                                            @if (in_array('update-recipe', auth()->user()->permissions))
+                                                <button wire:click="edit({{ $rp->id }})" id="clickedit"
+                                                    class="btn" data-toggle="modal" data-target="#modalEdit">
+                                                    <i class="fas fa-edit text-success"></i></button>
+                                            @endif
+
+                                            @if (in_array('hapus-recipe', auth()->user()->permissions))
+                                                <button wire:click="delete({{ $rp->id }})" class="btn"
+                                                    wire:confirm="Yakin Ingin Menghapus?">
+                                                    <i class="fas fa-trash text-danger"></i></button>
+                                            @endif
                                         </div>
                                     </td>
                                 </tr>
@@ -74,7 +81,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="store">
+                    <form id="store" wire:submit='store'>
                         <div class="form-group">
                             <label for="name">Recipe Name</label>
                             <input type="text" class="form-control" id="name" placeholder="Enter Name"

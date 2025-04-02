@@ -7,9 +7,11 @@
             <div class="card-body py-3">
                 <div class="my-5">
                     <h4 class="font-weight-bold text-primary">Receiving</h4>
-                    <button type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#modalAdd">
-                        <i class="fas fa-plus"></i>
-                    </button>
+                    @if (in_array('tambah-receiving', auth()->user()->permissions))
+                        <button type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#modalAdd">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    @endif
                 </div>
                 <div class="table-responsive">
                     <table class="table table-bordered" style="width:100%">
@@ -40,17 +42,22 @@
                                     <td>{{ $datas->last_update_by }}</td>
                                     <td>{{ $datas->last_update_time }}</td>
                                     <td>
+
                                         <button wire:click="showDetail('{{ $datas->receiving_id }}')" class="btn"
                                             data-toggle="modal" data-target="#modalShowDetail"> <i
                                                 class="fas fa-eye text-primary"></i>
-                                            </>
+                                        </button>
+                                        @if (in_array('update-receiving', auth()->user()->permissions))
                                             <button wire:click="edit('{{ $datas->receiving_id }}')" class="btn"
                                                 data-toggle="modal" data-target="#modalEdit"> <i
                                                     class="fas fa-edit text-success"></i>
                                             </button>
+                                        @endif
+                                        @if (in_array('hapus-receiving', auth()->user()->permissions))
                                             <button wire:click="delete('{{ $datas->receiving_id }}')" class="btn"
                                                 wire:confirm="Yakin Ingin Menghapus?"><i
                                                     class="fas fa-trash text-danger"></i></button>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
@@ -59,9 +66,9 @@
                 </div>
 
                 <!-- Pagination -->
-                {{-- <div class="mt-4">
-                    {{ $uoms->links() }}
-                </div> --}}
+                <div class="mt-4">
+                    {{ $data->links() }}
+                </div>
 
 
 
@@ -70,8 +77,8 @@
     </div>
 
     <!-- Modal Tambah -->
-    <div class="modal fade" id="modalAdd" data-backdrop="static" data-keyboard="false" tabindex="-1"
-        aria-labelledby="modalAddLabel" aria-hidden="true" wire:ignore.self>
+    <div wire:ignore.self class="modal fade" id="modalAdd" data-backdrop="static" data-keyboard="false" tabindex="-1"
+        aria-labelledby="modalAddLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
@@ -88,8 +95,7 @@
                     @endforeach
                 @endif
                 <div class="modal-body">
-                    <form>
-
+                    <form wire:submit='store'>
                         <div class="form-group">
                             <label for="date">Date</label>
                             <input type="date" class="form-control" id="date" placeholder="Enter date"
@@ -110,45 +116,49 @@
                             <label for="exampleFormControlTextarea1">Remarsk</label>
                             <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" wire:model='remarks'></textarea>
                         </div>
-                    </form>
 
-                    <button type="button" class="btn btn-primary mt-3" data-toggle="modal"
-                        data-target="#modalAddDetail">
-                        <i class="fas fa-plus"></i> Add Details
-                    </button>
+                        <button type="button" class="btn btn-primary mt-3" data-toggle="modal"
+                            data-target="#modalAddDetail">
+                            <i class="fas fa-plus"></i> Add Details
+                        </button>
 
-                    <div class="mt-5 list-detail overflow-auto">
-                        <table class="table table-bordered" style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Receiving ID</th>
-                                    <th>Inventory ID</th>
-                                    <th>Quantity</th>
-                                    <th>Price</th>
-                                    <th>Price Quantity</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>{{ $receivingID }}</td>
-                                    <td>{{ $inventory }}</td>
-                                    <td>{{ $quantity }}</td>
-                                    <td>{{ $price }}</td>
-                                    <td>{{ $priceQuantity }}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+
+                        <div class="mt-5 list-detail overflow-auto">
+                            <table class="table table-bordered" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Receiving ID</th>
+                                        <th>Inventory ID</th>
+                                        <th>Quantity</th>
+                                        <th>Price</th>
+                                        <th>Price Quantity</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>{{ $receivingID }}</td>
+                                        <td>{{ $inventory }}</td>
+                                        <td>{{ $quantity }}</td>
+                                        <td>{{ $price }}</td>
+                                        <td>{{ $priceQuantity }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
 
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"
                         wire:click='closeReceiving'>Close</button>
-                    <button type="button" class="btn btn-primary" {{ $saveState == 'true' ? '' : 'disabled' }}
-                        wire:click='store()'>Simpan Data</button>
+                    <button type="submit" class="btn btn-primary" {{ $saveState == 'true' ? '' : 'disabled' }}>Simpan
+                        Data</button>
                 </div>
+                </form>
+
+
+
             </div>
         </div>
     </div>
@@ -336,6 +346,7 @@
             Livewire.on('formSubmitted', () => {
                 $('#modalAdd').modal('hide');
             });
+
             Livewire.on('formEditSubmitted', () => {
                 $('#modalEdit').modal('hide');
             });

@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Recipe as ModelsRecipe;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -79,6 +80,23 @@ class Recipe extends Component
     public function closeModal()
     {
         $this->reset(['name', 'recipes', 'token']);
+    }
+
+    public function print($id)
+    {
+        $data = ModelsRecipe::where('id', $id)->first();
+        $pdfData = [
+            'recipes' => $data->recipes
+        ];
+
+        // Generate PDF
+        $pdf = Pdf::loadView('resep', $pdfData);
+
+        // Return the PDF as a downloadable response
+        return response()->streamDownload(
+            fn() => print($pdf->output()),
+            "resep_{$data->name}.pdf"
+        );
     }
 
     public function render()

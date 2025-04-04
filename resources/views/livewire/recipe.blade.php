@@ -38,6 +38,10 @@
                                     <td>{{ $rp->last_update_time }}</td>
                                     <td>
                                         <div class="d-flex justify-content-center">
+
+                                            <button wire:click="print({{ $rp->id }})" class="btn"><i
+                                                    class="fas fa-print text-warning"></i></button>
+
                                             <button wire:click="detail({{ $rp->id }})" class="btn"
                                                 data-toggle="modal" data-target="#modalDetail"><i
                                                     class="fas fa-eye text-primary"></i></button>

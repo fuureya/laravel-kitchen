@@ -98,8 +98,8 @@ return new class extends Migration {
             $table->string('receiving_code', 50)->unique();
             $table->foreignId('inventory_id')->constrained('barang_inventory');
             $table->integer('qty');
-            $table->decimal('price', 15, 2);
-            $table->decimal('price_qty', 15, 2);
+            $table->integer('price');
+            $table->integer('price_qty');
             $table->string('insert_by');
             $table->timestamp('insert_date');
             $table->string('last_update_by')->nullable();

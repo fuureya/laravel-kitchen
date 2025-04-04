@@ -24,7 +24,6 @@
                         <label class="form-label" for="password">Password</label>
                     </div>
 
-
                     <div class="text-center text-lg-start mt-4 pt-2">
                         <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg"
                             style="padding-left: 2.5rem; padding-right: 2.5rem;">Login</button>

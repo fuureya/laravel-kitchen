@@ -9,13 +9,16 @@ use App\Models\Suppliers;
 use Carbon\Carbon;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Livewire\Attributes\On;
+
+use function PHPUnit\Framework\isNull;
 
 class Receiving extends Component
 {
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
 
-    public $code, $receivingID, $date, $suppliers, $remarks, $inventory, $quantity = 0, $price = 0, $priceQuantity = 0;
+    public $code, $receivingID, $date, $uoms, $namaInventory, $suppliers, $remarks, $inventory, $quantity, $price, $priceQuantity;
     public $saveState = false;
 
     public function generateUniqueCode()
@@ -37,6 +40,26 @@ class Receiving extends Component
         }
     }
 
+    #[On('inventory-updated')]
+    public function getUoms()
+    {
+        if (!empty($this->inventory)) {
+            $data = Inventory::with('uom')->find($this->inventory);
+
+            if ($data && $data->uom) {
+
+                $this->uoms = $data->uom->name; // Store as an array for easy select use
+            }
+        } else {
+            $this->uoms = '';
+        }
+    }
+
+    public function updatedInventory()
+    {
+        $this->dispatch('inventory-updated');
+    }
+
     public function closeDetail()
     {
         $this->inventory = '';
@@ -45,6 +68,8 @@ class Receiving extends Component
         $this->priceQuantity = 0;
         $this->receivingID = '';
     }
+
+
 
     public function closeReceiving()
     {
@@ -57,6 +82,8 @@ class Receiving extends Component
     public function enableSaving()
     {
         $this->saveState = true;
+        $data = Inventory::where('id', $this->inventory)->first();
+        $this->namaInventory = $data->name;
         $this->dispatch('modalAddDetail');
     }
 
@@ -106,8 +133,9 @@ class Receiving extends Component
         $this->quantity = $data->qty;
         $this->price = $data->price;
         $this->inventory = $data->inventory_id;
-        $this->priceQuantity = $data->price_qty;
+        $this->priceQuantity = $this->quantity * $this->price;
         $this->receivingID = $data->receiving_code;
+        $this->getUoms();
     }
 
     public function edit($id)
@@ -118,6 +146,7 @@ class Receiving extends Component
         $this->inventory = $data->inventory_id;
         $this->priceQuantity = $data->price_qty;
         $this->receivingID = $data->receiving_code;
+        $this->getUoms();
     }
 
     public function update()

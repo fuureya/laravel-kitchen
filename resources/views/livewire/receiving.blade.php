@@ -127,9 +127,9 @@
                             <table class="table table-bordered" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
+
                                         <th>Receiving ID</th>
-                                        <th>Inventory ID</th>
+                                        <th>Inventory Name</th>
                                         <th>Quantity</th>
                                         <th>Price</th>
                                         <th>Price Quantity</th>
@@ -137,9 +137,8 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>1</td>
                                         <td>{{ $receivingID }}</td>
-                                        <td>{{ $inventory }}</td>
+                                        <td>{{ $namaInventory }}</td>
                                         <td>{{ $quantity }}</td>
                                         <td>{{ $price }}</td>
                                         <td>{{ $priceQuantity }}</td>
@@ -183,21 +182,32 @@
                 @endif
                 <div class="modal-body">
                     <form>
-                        <div class="form-group">
-                            <label for="inventory">Inventory</label>
-                            <select class="form-control" id="inventory" wire:model.live='inventory'>
-                                <option>Pilih Inventory</option>
+
+                        <label for="inventory">Inventory</label>
+
+                        <div class="input-group mb-3">
+                            <select class="custom-select" id="inventory" wire:model.live='inventory' required>
+                                <option selected>Pilih Inventory</option>
                                 @foreach ($invent as $item)
                                     <option value="{{ $item->id }}">{{ $item->name }}</optio>
                                 @endforeach
                             </select>
+
                         </div>
 
-                        <div class="form-group">
-                            <label for="quantity">Quantity</label>
-                            <input type="number" class="form-control" id="quantity" placeholder="Enter quantity"
-                                wire:model.live='quantity'>
+
+                        <label for="quantity">Quantity</label>
+                        <div class="input-group mb-3">
+                            <input type="number" class="form-control" aria-label="Recipient's username"
+                                aria-describedby="basic-addon2" wire:model.live='quantity'>
+                            <div class="input-group-append">
+                                <span class="input-group-text" id="basic-addon2">
+                                    {{ $uoms }}
+                                </span>
+                            </div>
                         </div>
+
+
 
                         <div class="form-group">
                             <label for="price">Price</label>
@@ -252,11 +262,19 @@
                             </select>
                         </div>
 
-                        <div class="form-group">
-                            <label for="quantity">Quantity</label>
-                            <input type="number" class="form-control" id="quantity" placeholder="Enter quantity"
-                                wire:model.live='quantity' disabled>
+
+                        <label for="quantity">Quantity</label>
+                        <div class="input-group mb-3">
+                            <input type="number" class="form-control" aria-label="Recipient's username"
+                                aria-describedby="basic-addon2" wire:model.live='quantity' disabled>
+                            <div class="input-group-append">
+                                <span class="input-group-text" id="basic-addon2">
+                                    {{ $uoms }}
+                                </span>
+                            </div>
                         </div>
+
+
 
                         <div class="form-group">
                             <label for="price">Price</label>
@@ -311,10 +329,15 @@
                             </select>
                         </div>
 
-                        <div class="form-group">
-                            <label for="quantity">Quantity</label>
-                            <input type="number" class="form-control" id="quantity" placeholder="Enter quantity"
-                                wire:model.live='quantity'>
+                        <label for="quantity">Quantity</label>
+                        <div class="input-group mb-3">
+                            <input type="number" class="form-control" aria-label="Recipient's username"
+                                aria-describedby="basic-addon2" wire:model.live='quantity'>
+                            <div class="input-group-append">
+                                <span class="input-group-text" id="basic-addon2">
+                                    {{ $uoms }}
+                                </span>
+                            </div>
                         </div>
 
                         <div class="form-group">

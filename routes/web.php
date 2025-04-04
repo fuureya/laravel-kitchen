@@ -20,7 +20,7 @@ Route::get('/', function () {
 Route::get('/dashboard', Homepage::class)->middleware('permission:view-dashboard');
 Route::get('uoms', UomsRoute::class)->middleware('permission:view-uoms');
 Route::get('category', CategoryRoute::class)->middleware('permission:view-category');
-Route::get('inventory', inventoryRoutes::class)->middleware('permission:view-inventory');
+Route::get('items', inventoryRoutes::class)->middleware('permission:view-inventory');
 Route::get('suppliers', SupplierRoutes::class)->middleware('permission:view-suppliers');
 Route::get('atur-hak-akses', AturHakAkses::class)->middleware('permission:view-hak-akses');
 Route::get('atur-grup', AturGrup::class)->middleware('permission:view-atur-grup');

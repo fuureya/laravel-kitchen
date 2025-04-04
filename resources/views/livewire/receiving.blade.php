@@ -12,6 +12,9 @@
                             <i class="fas fa-plus"></i>
                         </button>
                     @endif
+
+
+
                 </div>
                 <div class="table-responsive">
                     <table class="table table-bordered" style="width:100%">
@@ -42,7 +45,9 @@
                                     <td>{{ $datas->last_update_by }}</td>
                                     <td>{{ $datas->last_update_time }}</td>
                                     <td>
-
+                                        <button class="btn" wire:click='printing({{ $datas->id }})'>
+                                            <i class="fas fa-print text-success"></i>
+                                        </button>
                                         <button wire:click="showDetail('{{ $datas->receiving_id }}')" class="btn"
                                             data-toggle="modal" data-target="#modalShowDetail"> <i
                                                 class="fas fa-eye text-primary"></i>

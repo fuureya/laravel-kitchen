@@ -6,11 +6,11 @@
             @endif
             <div class="card-body py-3">
                 <div class="my-5">
-                    <h4 class="font-weight-bold text-primary">Inventory Management</h4>
+                    <h4 class="font-weight-bold text-primary">Items Management</h4>
                     @if (in_array('tambah-inventory', auth()->user()->permissions))
                         <button type="button" class="btn btn-primary mt-3" wire:click="openModal" data-toggle="modal"
                             data-target="#modalAdd">
-                            <i class="fas fa-plus"></i> Add Inventory
+                            <i class="fas fa-plus"></i> Add Items
                         </button>
                     @endif
                 </div>

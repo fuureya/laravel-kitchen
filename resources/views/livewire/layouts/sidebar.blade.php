@@ -22,7 +22,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="{{ url('/uoms') }}">Unit Of Measurement</a>
                         <a class="collapse-item" href="{{ url('/category') }}">Category</a>
-                        <a class="collapse-item" href="{{ url('/inventory') }}">Inventory</a>
+                        <a class="collapse-item" href="{{ url('/items') }}">Items</a>
                         <a class="collapse-item" href="{{ url('/suppliers') }}">Suppliers</a>
                         <a class="collapse-item" href="{{ url('/receiving') }}">Receiving</a>
                         <a class="collapse-item" href="{{ url('/recipe') }}">Recipe</a>

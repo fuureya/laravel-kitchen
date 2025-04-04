@@ -10,8 +10,8 @@ use Carbon\Carbon;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\Attributes\On;
+use Barryvdh\DomPDF\Facade\Pdf;
 
-use function PHPUnit\Framework\isNull;
 
 class Receiving extends Component
 {
@@ -182,6 +182,50 @@ class Receiving extends Component
     public function delete($id)
     {
         ModelsReceiving::where('receiving_id', $id)->delete();
+    }
+
+    public function printing($token)
+    {
+
+        $path = public_path('logobk.png'); // Path to your image
+        $type = pathinfo($path, PATHINFO_EXTENSION);
+        $data = file_get_contents($path);
+        $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+
+        $data = ModelsReceiving::where('receiving.id', $token)
+            ->join('receiving_detail', 'receiving_detail.receiving_id', '=', 'receiving.id')
+            ->first();
+
+        $inventory = Inventory::where('id', $data->inventory_id)->first();
+
+
+        if (!$data) {
+            session()->flash('error', 'Data not found for printing.');
+            return;
+        }
+
+        $pdfData = [
+            'receivingID' => $data->receiving_code,
+            'quantity' => $data->qty,
+            'price' => $data->price,
+            'inventory' => $inventory->name,
+            'total' => $data->qty * $data->price,
+            'date' => Carbon::now('Y', 'm', 'd'),
+            'price_qty' => $data->price_qty,
+            'create_by' => auth()->user()->name,
+            'remark' => $data->remark,
+            'image' => $base64
+
+        ];
+
+        // Generate PDF
+        $pdf = Pdf::loadView('pdf', $pdfData);
+
+        // Return the PDF as a downloadable response
+        return response()->streamDownload(
+            fn() => print($pdf->output()),
+            "Receiving_{$data->receiving_code}.pdf"
+        );
     }
 
 

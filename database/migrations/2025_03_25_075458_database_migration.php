@@ -118,6 +118,20 @@ return new class extends Migration {
             $table->timestamp('last_update_time')->nullable();
             $table->timestamps();
         });
+
+        // Recipe  Table
+        Schema::create('receiving_purchase', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('receiving_id')->references('id')->on('receiving')->on('receiving')->onDelete('cascade');;
+            $table->string('receiving_code');
+            $table->string('name');
+            $table->integer('total');
+            $table->enum('purchase', ['kredit', 'debit']);
+            $table->enum('status', ['lunas', 'belum lunas']);
+            $table->timestamp('insert_time');
+            $table->string('insert_by');
+            $table->timestamps();
+        });
     }
 
     public function down()
@@ -130,6 +144,7 @@ return new class extends Migration {
         Schema::dropIfExists('group_akses');
         Schema::dropIfExists('receiving');
         Schema::dropIfExists('receciving_detail');
+        Schema::dropIfExists('receiving_purchase');
         Schema::dropIfExists('recipes');
     }
 };

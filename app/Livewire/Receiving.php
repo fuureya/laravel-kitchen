@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\Inventory;
 use App\Models\Receiving as ModelsReceiving;
 use App\Models\ReceivingDetail as ModelsReceivingDetail;
+use App\Models\ReceivingPurchase;
 use App\Models\Suppliers;
 use Carbon\Carbon;
 use Livewire\Component;
@@ -18,7 +19,7 @@ class Receiving extends Component
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
 
-    public $code, $receivingID, $date, $uoms, $namaInventory, $suppliers, $remarks, $inventory, $quantity, $price, $priceQuantity;
+    public $code, $receivingID, $date, $uoms, $namaInventory, $suppliers, $remarks, $inventory, $quantity, $price, $priceQuantity, $paid, $status, $purchase;
     public $saveState = false;
 
     public function generateUniqueCode()
@@ -151,6 +152,8 @@ class Receiving extends Component
 
     public function update()
     {
+
+
         $this->validate([
             'inventory' => 'required',
             'quantity' => 'required',
@@ -171,6 +174,25 @@ class Receiving extends Component
             'last_update_by' => auth()->user()->name,
             'last_update_time' => Carbon::now()
         ]);
+
+        if ($this->status && $this->paid && $this->purchase) {
+            // get receiving id
+            $getID = ModelsReceiving::where('receiving_id', $this->receivingID)->first();
+            $getNameInventory = ModelsReceivingDetail::where('inventory_id', $this->inventory)->first();
+            // dd($getNameInventory->inventory->name);
+
+            ReceivingPurchase::create([
+                'receiving_id' => $getID->id,
+                'receiving_code' => $this->receivingID,
+                'name' => $getNameInventory->inventory->name,
+                'total' => $this->paid,
+                'purchase' => $this->purchase,
+                'status' => $this->status,
+                'insert_by' => auth()->user()->name,
+                'insert_time' => Carbon::now()
+            ]);
+        }
+
 
 
         $this->reset(['code', 'receivingID', 'date', 'suppliers', 'remarks', 'inventory', 'quantity', 'price', 'priceQuantity']);

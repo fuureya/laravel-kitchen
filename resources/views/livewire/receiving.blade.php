@@ -356,6 +356,36 @@
                             <input type="number" class="form-control" id="price_quantity"
                                 placeholder="Enter Price Quantity" wire:model.live='priceQuantity' disabled>
                         </div>
+
+                        <br>
+                        <hr>
+
+                        <h5 class="font-weight-bold mb-3">Payment Receiving</h5>
+
+                        <div class="form-group">
+                            <label for="paid">Amount Paid</label>
+                            <input type="paid" class="form-control" id="paid" placeholder="Enter paid"
+                                wire:model.live='paid'>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="purchase">Purchase</label>
+                            <select class="form-control" id="purchase" wire:model.live='purchase'>
+                                <option>Select Purchase</option>
+                                <option value="kredit">Kredit</option>
+                                <option value="debit">Debit</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="status">Status</label>
+                            <select class="form-control" id="status" wire:model.live='status'>
+                                <option>Pilih Status</option>
+                                <option value="lunas">Lunas</option>
+                                <option value="belum lunas">Belum Lunas</option>
+                            </select>
+                        </div>
+
                     </form>
                 </div>
                 <div class="modal-footer">

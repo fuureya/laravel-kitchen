@@ -82,12 +82,10 @@
 
 <body>
 
-    <!-- Logo & Header -->
     <div class="header">
         <img src="{{ $image }}" alt="Company Logo">
     </div>
 
-    <!-- Receiving Information -->
     <div class="info">
         <p><strong>No. #{{ $receivingID }}</strong></p>
         <p><strong>Date:</strong> {{ $date }}</p>
@@ -96,7 +94,6 @@
 
     <h2 style="text-align: center;">RECEIVING</h2>
 
-    <!-- Table -->
     <table class="table">
         <thead>
             <tr>
@@ -109,7 +106,7 @@
         </thead>
         <tbody>
             <tr>
-                <td>1</td>
+                <td></td>
                 <td>{{ $inventory }}</td>
                 <td>{{ $quantity }}</td>
                 <td>{{ $price }}</td>
@@ -118,13 +115,11 @@
         </tbody>
     </table>
 
-    <!-- Remark -->
     <div class="remark">
         <p><strong>Remark:</strong></p>
         <p>{{ $remark }}</p>
     </div>
 
-    <!-- Signature Section using Table -->
     <table style="width: 100%; margin-top: 50px; border-collapse: collapse;">
         <tr>
             <td style="width: 50%; text-align: left; padding-top: 40px;">
@@ -135,8 +130,6 @@
             </td>
         </tr>
     </table>
-
-
 </body>
 
 </html>

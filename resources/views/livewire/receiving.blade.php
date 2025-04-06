@@ -185,6 +185,10 @@
                         </div>
                     @endforeach
                 @endif
+
+                @if (session()->has('error'))
+                    <div class="alert alert-danger">{{ session('error') }}</div>
+                @endif
                 <div class="modal-body">
                     <form>
 

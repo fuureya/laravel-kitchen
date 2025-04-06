@@ -70,6 +70,7 @@ class Receiving extends Component
         $this->price = 0;
         $this->priceQuantity = 0;
         $this->receivingID = '';
+        $this->reset(['code', 'receivingID', 'date', 'uoms', 'namaInventory', 'suppliers', 'remarks', 'inventory', 'quantity', 'price', 'priceQuantity', 'paid', 'status', 'purchase', 'insertTime', 'insertBy']);
     }
 
 
@@ -84,10 +85,14 @@ class Receiving extends Component
 
     public function enableSaving()
     {
-        $this->saveState = true;
         $data = Inventory::where('id', $this->inventory)->first();
-        $this->namaInventory = $data->name;
-        $this->dispatch('modalAddDetail');
+        if ($data != null) {
+            $this->saveState = true;
+            $this->namaInventory = $data->name;
+            $this->dispatch('modalAddDetail');
+        } else {
+            session()->flash('error', 'Masih Kosong!!!');
+        }
     }
 
     public function store()
@@ -166,7 +171,11 @@ class Receiving extends Component
             'inventory' => 'required',
             'quantity' => 'required',
             'price' => 'required',
+            'paid' => 'required',
+
         ]);
+
+
 
         ModelsReceivingDetail::where('receiving_code', $this->receivingID)->update([
             'inventory_id' => $this->inventory,

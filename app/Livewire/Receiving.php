@@ -19,8 +19,10 @@ class Receiving extends Component
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
 
-    public $code, $receivingID, $date, $uoms, $namaInventory, $suppliers, $remarks, $inventory, $quantity, $price, $priceQuantity, $paid, $status, $purchase;
+    public $code, $receivingID, $date, $uoms, $namaInventory, $suppliers, $remarks, $inventory, $quantity, $price, $priceQuantity, $paid, $status, $purchase, $insertTime, $insertBy;
     public $saveState = false;
+
+    public $getAllInventory;
 
     public function generateUniqueCode()
     {
@@ -131,6 +133,12 @@ class Receiving extends Component
     public function showDetail($id)
     {
         $data =  ModelsReceivingDetail::where('receiving_code', $id)->first();
+
+        if ($id) {
+            $detailPurchase = ReceivingPurchase::where('receiving_code', $id)->get();
+
+            $this->getAllInventory = $detailPurchase;
+        }
         $this->quantity = $data->qty;
         $this->price = $data->price;
         $this->inventory = $data->inventory_id;
@@ -195,7 +203,7 @@ class Receiving extends Component
 
 
 
-        $this->reset(['code', 'receivingID', 'date', 'suppliers', 'remarks', 'inventory', 'quantity', 'price', 'priceQuantity']);
+        $this->reset(['code', 'receivingID', 'date', 'suppliers', 'remarks', 'inventory', 'quantity', 'price', 'priceQuantity', 'paid', 'purchase', 'status']);
         $this->dispatch('formEditSubmitted');
     }
 

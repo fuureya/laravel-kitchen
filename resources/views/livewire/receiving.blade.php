@@ -294,6 +294,41 @@
                         </div>
                     </form>
                 </div>
+
+                <hr>
+
+
+                <div class="container">
+                    <h5 class="font-weight-bold">Purchase Detail</h5>
+
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Paid</th>
+                                <th>Purchase</th>
+                                <th>Status</th>
+                                <th>Insert Time</th>
+                                <th>Insert By</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @if ($getAllInventory != null)
+                                @foreach ($getAllInventory as $item)
+                                    <tr>
+                                        <td>Rp. {{ $item->total }}000000</td>
+                                        <td>{{ $item->purchase }}</td>
+                                        <td>{{ $item->status }}</td>
+                                        <td>{{ $item->insert_time }}</td>
+                                        <td>{{ $item->insert_by }}</td>
+                                    </tr>
+                                @endforeach
+                            @endif
+
+                        </tbody>
+                    </table>
+                </div>
+
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"
                         wire:click='closeDetail'>Close</button>

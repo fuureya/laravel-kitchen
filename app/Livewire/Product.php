@@ -36,7 +36,7 @@ class Product extends Component
             'name' => 'required',
             'price' => 'required',
         ]);
-        ModelsProduct::where('product_id', $this->token)->update([
+        ModelsProduct::where('id', $this->token)->update([
             'product_name' => $this->name,
             'price' => $this->price,
             'last_update_by' => auth()->user()->name,

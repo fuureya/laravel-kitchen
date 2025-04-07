@@ -310,6 +310,7 @@
                             <tr>
                                 <th>Paid</th>
                                 <th>Purchase</th>
+                                <th>Payment</th>
                                 <th>Status</th>
                                 <th>Insert Time</th>
                                 <th>Insert By</th>
@@ -322,6 +323,7 @@
                                     <tr>
                                         <td>Rp. {{ $item->total }}000000</td>
                                         <td>{{ $item->purchase }}</td>
+                                        <td>{{ $item->payment_name }}</td>
                                         <td>{{ $item->status }}</td>
                                         <td>{{ $item->insert_time }}</td>
                                         <td>{{ $item->insert_by }}</td>
@@ -413,6 +415,16 @@
                                 <option>Select Purchase</option>
                                 <option value="kredit">Kredit</option>
                                 <option value="debit">Debit</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="payment">Payment</label>
+                            <select class="form-control" id="payment" wire:model.live='payment'>
+                                <option>Select Payment</option>
+                                @foreach ($paymentData as $item)
+                                    <option value="{{ $item->payment_name }}">{{ $item->payment_name }}</option>
+                                @endforeach
                             </select>
                         </div>
 

@@ -125,6 +125,7 @@ return new class extends Migration {
             $table->foreignId('receiving_id')->references('id')->on('receiving')->on('receiving')->onDelete('cascade');;
             $table->string('receiving_code');
             $table->string('name');
+            $table->string('payment_name')->nullable();
             $table->integer('total');
             $table->enum('purchase', ['kredit', 'debit']);
             $table->enum('status', ['lunas', 'belum lunas']);

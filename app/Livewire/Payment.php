@@ -71,6 +71,7 @@ class Payment extends Component
     public function render()
     {
         $data = ModelsPayment::paginate(10);
+
         return view('livewire.payment', ["data" => $data]);
     }
 }

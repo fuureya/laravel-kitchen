@@ -6,6 +6,7 @@ use App\Models\Inventory;
 use App\Models\Receiving as ModelsReceiving;
 use App\Models\ReceivingDetail as ModelsReceivingDetail;
 use App\Models\ReceivingPurchase;
+use App\Models\Payment as PaymentModel;
 use App\Models\Suppliers;
 use Carbon\Carbon;
 use Livewire\Component;
@@ -19,7 +20,7 @@ class Receiving extends Component
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
 
-    public $code, $receivingID, $date, $uoms, $namaInventory, $suppliers, $remarks, $inventory, $quantity, $price, $priceQuantity, $paid, $status, $purchase, $insertTime, $insertBy;
+    public $code, $receivingID, $date, $payment, $uoms, $namaInventory, $suppliers, $remarks, $inventory, $quantity, $price, $priceQuantity, $paid, $status, $purchase, $insertTime, $insertBy;
     public $saveState = false;
 
     public $getAllInventory;
@@ -124,13 +125,13 @@ class Receiving extends Component
             'inventory_id' => $this->inventory,
             'qty' => $this->quantity,
             'price' => $this->price,
+            'payment_name' => $this->payment,
             'price_qty' => $this->priceQuantity,
             'insert_date' => Carbon::now(),
             'insert_by' => auth()->user()->name
         ]);
         $this->saveState = false;
-        $this->reset(['code', 'date', 'suppliers', 'remarks', 'inventory', 'quantity', 'price', 'priceQuantity']);
-        // $this->dispatch('formSubmitted');
+        $this->reset(['code', 'date', 'suppliers', 'remarks', 'inventory', 'quantity', 'price', 'priceQuantity', 'payment']);
         session()->flash('message', 'Receiving item added successfully.');
         return redirect('/receiving');
     }
@@ -141,11 +142,11 @@ class Receiving extends Component
 
         if ($id) {
             $detailPurchase = ReceivingPurchase::where('receiving_code', $id)->get();
-
             $this->getAllInventory = $detailPurchase;
         }
         $this->quantity = $data->qty;
         $this->price = $data->price;
+
         $this->inventory = $data->inventory_id;
         $this->priceQuantity = $this->quantity * $this->price;
         $this->receivingID = $data->receiving_code;
@@ -172,7 +173,7 @@ class Receiving extends Component
             'quantity' => 'required',
             'price' => 'required',
             'paid' => 'required',
-
+            'payment' => 'required'
         ]);
 
 
@@ -203,6 +204,7 @@ class Receiving extends Component
                 'receiving_code' => $this->receivingID,
                 'name' => $getNameInventory->inventory->name,
                 'total' => $this->paid,
+                'payment_name' => $this->payment,
                 'purchase' => $this->purchase,
                 'status' => $this->status,
                 'insert_by' => auth()->user()->name,
@@ -210,10 +212,9 @@ class Receiving extends Component
             ]);
         }
 
-
-
-        $this->reset(['code', 'receivingID', 'date', 'suppliers', 'remarks', 'inventory', 'quantity', 'price', 'priceQuantity', 'paid', 'purchase', 'status']);
+        $this->reset(['code', 'receivingID', 'date', 'suppliers', 'remarks', 'inventory', 'quantity', 'price', 'priceQuantity', 'paid', 'purchase', 'status', 'payment']);
         $this->dispatch('formEditSubmitted');
+        session()->flash('message', 'Receiving item updated successfully.');
     }
 
 
@@ -275,13 +276,16 @@ class Receiving extends Component
             $this->priceQuantity = $this->quantity * $this->price;
         }
 
+        $paymentData =  PaymentModel::select('payment_name')->get();
+
         $suppliersDB = Suppliers::select('name', 'id')->get();
         $inventoryDB = Inventory::select('name', 'id')->get();
         $data = ModelsReceiving::paginate(10);
         return view('livewire.receiving', [
             "supp" => $suppliersDB,
             "invent" => $inventoryDB,
-            "data" => $data
+            "data" => $data,
+            'paymentData' => $paymentData
         ]);
     }
 }

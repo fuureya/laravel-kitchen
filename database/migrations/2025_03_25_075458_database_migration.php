@@ -142,6 +142,45 @@ return new class extends Migration {
             $table->string('insert_by');
             $table->timestamps();
         });
+
+        // products
+        Schema::create('products', function (Blueprint $table) {
+            $table->id();
+            $table->string('product_name');
+            $table->integer('price');
+            $table->string('insert_by')->nullable();
+            $table->timestamp('insert_date')->nullable();
+            $table->string('last_update_by')->nullable();
+            $table->timestamp('last_upeate_time')->nullable();
+        });
+
+        // sales table
+        Schema::create('sales', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('suppliers_id');
+            $table->text('remark')->nullable();
+            $table->date('date');
+            $table->enum('void_status', ['N', 'Y'])->default('N');
+            $table->string('insert_by')->nullable();
+            $table->timestamp('insert_date')->nullable();
+            $table->string('last_update_by')->nullable();
+            $table->timestamp('last_upeate_time')->nullable();
+
+            $table->foreign('suppliers_id')->references('id')->on('suppliers')->onDelete('cascade');
+        });
+
+        // sales detail
+        Schema::create('sales_detail', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('sales_id');
+            $table->unsignedBigInteger('sales_product_id');
+            $table->integer('qty');
+            $table->decimal('price', 15, 2);
+            $table->timestamp('insert_date')->nullable();
+            $table->string('insert_by')->nullable();
+            $table->foreign('sales_id')->references('id')->on('sales')->onDelete('cascade');
+            $table->foreign('sales_product_id')->references('id')->on('products')->onDelete('cascade');
+        });
     }
 
     public function down()
@@ -157,5 +196,8 @@ return new class extends Migration {
         Schema::dropIfExists('receiving_purchase');
         Schema::dropIfExists('recipes');
         Schema::dropIfExists('payment');
+        Schema::dropIfExists('products');
+        Schema::dropIfExists('sales');
+        Schema::dropIfExists('sales_detail');
     }
 };

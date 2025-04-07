@@ -102,9 +102,9 @@
                                 <label for="supplier">Supplier</label>
                                 <select class="form-control" id="supplier" wire:model="suppliers_id" required>
                                     <option value="">Select Supplier</option>
-                                    {{-- @foreach ($suppliers as $supplier)
+                                    @foreach ($suppliers as $supplier)
                                         <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
-                                    @endforeach --}}
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -179,9 +179,9 @@
                             <label for="product">Product</label>
                             <select class="form-control" id="product" wire:model="product_id" required>
                                 <option value="">Select Product</option>
-                                {{-- @foreach ($products as $product)
+                                @foreach ($products as $product)
                                     <option value="{{ $product->id }}">{{ $product->name }}</option>
-                                @endforeach --}}
+                                @endforeach
                             </select>
                         </div>
                         <div class="form-group">

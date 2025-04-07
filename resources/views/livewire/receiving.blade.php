@@ -339,7 +339,6 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"
                         wire:click='closeDetail'>Close</button>
-                    <button type="button" class="btn btn-primary" wire:click='enableSaving'>Simpan Detail</button>
                 </div>
             </div>
         </div>

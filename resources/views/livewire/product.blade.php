@@ -31,24 +31,21 @@
                         <tbody>
                             @foreach ($data as $product)
                                 <tr>
-                                    <td>{{ $product->id }}</td>
+                                    <td>{{ $loop->iteration }}</td>
                                     <td>{{ $product->product_name }}</td>
-                                    <td>{{ number_format($product->price, 0, ',', '.') }}</td>
+                                    <td>Rp. {{ number_format($product->price, 0, ',', '.') }}</td>
                                     <td>{{ $product->insert_by }}</td>
                                     <td>{{ $product->insert_date }}</td>
                                     <td>{{ $product->last_update_by }}</td>
                                     <td>{{ $product->last_update_time }}</td>
                                     <td>
-                                        @if (in_array('update-product', auth()->user()->permissions))
-                                            <button wire:click="edit({{ $product->id }})" class="btn"
-                                                data-toggle="modal" data-target="#modalEdit"><i
-                                                    class="fas fa-edit text-success"></i></button>
-                                        @endif
-                                        @if (in_array('hapus-product', auth()->user()->permissions))
-                                            <button wire:click="delete({{ $product->id }})" class="btn"
-                                                wire:confirm="Yakin Ingin Menghapus?"><i
-                                                    class="fas fa-trash text-danger"></i></button>
-                                        @endif
+
+                                        <button wire:click="edit({{ $product->id }})" class="btn"
+                                            data-toggle="modal" data-target="#modalEdit"><i
+                                                class="fas fa-edit text-success"></i></button>
+                                        <button wire:click="delete({{ $product->id }})" class="btn"
+                                            wire:confirm="Yakin Ingin Menghapus?"><i
+                                                class="fas fa-trash text-danger"></i></button>
                                     </td>
                                 </tr>
                             @endforeach
@@ -116,7 +113,7 @@
                         <div class="form-group">
                             <label for="product_name">Product Name</label>
                             <input type="text" class="form-control" id="product_name" placeholder="Enter Name"
-                                wire:model="product_name">
+                                wire:model="name">
                         </div>
                         <div class="form-group">
                             <label for="price">Price</label>

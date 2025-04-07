@@ -16,6 +16,36 @@ class Product extends Component
     {
         $this->reset(['name', 'price', 'token']);
     }
+
+    public function closeModal()
+    {
+        $this->resetSubmit();
+    }
+
+    public function edit($id)
+    {
+        $data = ModelsProduct::find($id);
+        $this->name = $data->product_name;
+        $this->price = $data->price;
+        $this->token = $id;
+    }
+
+    public function update()
+    {
+        $this->validate([
+            'name' => 'required',
+            'price' => 'required',
+        ]);
+        ModelsProduct::where('product_id', $this->token)->update([
+            'product_name' => $this->name,
+            'price' => $this->price,
+            'last_update_by' => auth()->user()->name,
+            'last_update_time' => now(),
+        ]);
+        $this->dispatch('editSubmitted');
+        $this->resetSubmit();
+        session()->flash('message', 'Product updated successfully');
+    }
     public function store()
     {
         $this->validate([
@@ -30,7 +60,14 @@ class Product extends Component
         ]);
         $this->dispatch('formSubmitted');
         $this->resetSubmit();
-        session()->flash('success', 'Product added successfully');
+        session()->flash('message', 'Product added successfully');
+    }
+
+    public function delete($id)
+    {
+        $data = ModelsProduct::find($id);
+        $data->delete();
+        session()->flash('message', 'Product deleted successfully');
     }
     public function render()
     {

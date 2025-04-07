@@ -321,7 +321,8 @@
                             @if ($getAllInventory != null)
                                 @foreach ($getAllInventory as $item)
                                     <tr>
-                                        <td>Rp. {{ $item->total }}000000</td>
+
+                                        <td>Rp. {{ number_format($item->total, 0, ',', '.') }}</td>
                                         <td>{{ $item->purchase }}</td>
                                         <td>{{ $item->payment_name }}</td>
                                         <td>{{ $item->status }}</td>

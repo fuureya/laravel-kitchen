@@ -13,16 +13,32 @@
 
             <hr class="sidebar-divider">
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>Menu</span>
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#master-menu"
+                    aria-expanded="true" aria-controls="master-menu">
+                    <i class="fas fa-fw fa-key"></i>
+
+                    <span>Master Menu</span>
                 </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div id="master-menu" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="{{ url('/payment') }}">Payment</a>
                         <a class="collapse-item" href="{{ url('/uoms') }}">Unit Of Measurement</a>
                         <a class="collapse-item" href="{{ url('/category') }}">Category</a>
+                        <a class="collapse-item" href="{{ url('/products') }}">Products</a>
+                    </div>
+                </div>
+            </li>
+
+            <hr class="sidebar-divider">
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                    aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-fw fa-exchange-alt"></i>
+                    <span>Transaction Menu</span>
+                </a>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+
                         <a class="collapse-item" href="{{ url('/items') }}">Items</a>
                         <a class="collapse-item" href="{{ url('/suppliers') }}">Suppliers</a>
                         <a class="collapse-item" href="{{ url('/receiving') }}">Receiving</a>
@@ -37,7 +53,7 @@
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree"
                     aria-expanded="true" aria-controls="collapseThree">
                     <i class="fa-solid fa-shield"></i>
-                    <span>Grup & Hak Akses</span>
+                    <span>Group & Permissions</span>
                 </a>
                 <div id="collapseThree" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">

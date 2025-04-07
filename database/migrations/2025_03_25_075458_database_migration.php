@@ -152,6 +152,7 @@ return new class extends Migration {
             $table->timestamp('insert_date')->nullable();
             $table->string('last_update_by')->nullable();
             $table->timestamp('last_upeate_time')->nullable();
+            $table->timestamps();
         });
 
         // sales table
@@ -167,6 +168,7 @@ return new class extends Migration {
             $table->timestamp('last_upeate_time')->nullable();
 
             $table->foreign('suppliers_id')->references('id')->on('suppliers')->onDelete('cascade');
+            $table->timestamps();
         });
 
         // sales detail
@@ -180,6 +182,7 @@ return new class extends Migration {
             $table->string('insert_by')->nullable();
             $table->foreign('sales_id')->references('id')->on('sales')->onDelete('cascade');
             $table->foreign('sales_product_id')->references('id')->on('products')->onDelete('cascade');
+            $table->timestamps();
         });
     }
 

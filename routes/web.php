@@ -8,6 +8,7 @@ use App\Livewire\Uoms as UomsRoute;
 use App\Livewire\Categories as CategoryRoute;
 use App\Livewire\Inventory as inventoryRoutes;
 use App\Livewire\Login;
+use App\Livewire\Payment;
 use App\Livewire\Receiving;
 use App\Livewire\Recipe;
 use App\Livewire\Suppliers as SupplierRoutes;
@@ -28,3 +29,4 @@ Route::get('atur-user', AturUser::class)->middleware('permission:view-atur-user'
 Route::get('login', Login::class)->middleware('guest');
 Route::get('receiving', Receiving::class)->middleware('permission:view-receiving');
 Route::get('recipe', Recipe::class)->middleware('permission:view-recipe');
+Route::get('payment', Payment::class)->middleware('permission:view-recipe');

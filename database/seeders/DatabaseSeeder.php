@@ -69,6 +69,18 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
+        // payment
+
+        $payment = ['BCA', 'BRI', 'MANDIRI', 'BNI', 'CASH', 'GOPAY', 'OVO', 'DANA'];
+
+        foreach ($payment as $pay) {
+            DB::table('payment')->insert([
+                'payment_name' => $pay,
+                'insert_by' =>  'Admin',
+                'insert_time' => Carbon::now(),
+            ]);
+        }
+
         DB::table('group_akses')->insert([
             'name' => 'Administrator',
             'permissions' => json_encode($hakAkses)

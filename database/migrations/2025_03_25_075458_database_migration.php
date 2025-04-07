@@ -132,6 +132,15 @@ return new class extends Migration {
             $table->string('insert_by');
             $table->timestamps();
         });
+
+        // payment Table
+        Schema::create('payment', function (Blueprint $table) {
+            $table->id();
+            $table->string('payment_name');
+            $table->timestamp('insert_time');
+            $table->string('insert_by');
+            $table->timestamps();
+        });
     }
 
     public function down()
@@ -146,5 +155,6 @@ return new class extends Migration {
         Schema::dropIfExists('receciving_detail');
         Schema::dropIfExists('receiving_purchase');
         Schema::dropIfExists('recipes');
+        Schema::dropIfExists('payment');
     }
 };

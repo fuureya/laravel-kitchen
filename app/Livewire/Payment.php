@@ -20,6 +20,11 @@ class Payment extends Component
         $this->reset(['name', 'token']);
     }
 
+    public function closeModal()
+    {
+        $this->resetInputFields();
+    }
+
     public function store()
     {
         $this->validate([

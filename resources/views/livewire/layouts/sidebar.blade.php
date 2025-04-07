@@ -42,6 +42,7 @@
                         <a class="collapse-item" href="{{ url('/items') }}">Items</a>
                         <a class="collapse-item" href="{{ url('/suppliers') }}">Suppliers</a>
                         <a class="collapse-item" href="{{ url('/receiving') }}">Receiving</a>
+                        <a class="collapse-item" href="{{ url('/sales') }}">Sales</a>
                         <a class="collapse-item" href="{{ url('/recipe') }}">Recipe</a>
                     </div>
                 </div>

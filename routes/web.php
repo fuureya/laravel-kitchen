@@ -12,6 +12,7 @@ use App\Livewire\Payment;
 use App\Livewire\Product;
 use App\Livewire\Receiving;
 use App\Livewire\Recipe;
+use App\Livewire\Sales;
 use App\Livewire\Suppliers as SupplierRoutes;
 use Illuminate\Support\Facades\Route;
 
@@ -31,5 +32,6 @@ Route::get('receiving', Receiving::class)->middleware('permission:view-receiving
 Route::get('recipe', Recipe::class)->middleware('permission:view-recipe');
 Route::get('payment', Payment::class)->middleware('permission:view-recipe');
 Route::get('products', Product::class)->middleware('permission:view-recipe');
+Route::get('sales', Sales::class)->middleware('permission:view-recipe');
 
 Route::get('login', Login::class)->middleware('guest');

@@ -119,7 +119,7 @@
 
                             <div class="form-group">
                                 <label for="product">Product</label>
-                                {{ $productID }}
+
                                 <select class="form-control" id="product" wire:model.live="productID" required>
                                     <option value="">Select Product</option>
                                     @foreach ($products as $product)
@@ -250,74 +250,60 @@
                     </div>
                 @endif
                 <div class="modal-body">
-                    <form wire:submit.prevent="update">
-                        <input type="hidden" wire:model="sale_id">
-
+                    <form wire:submit.prevent="store">
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label for="edit_date">Date</label>
-                                <input type="date" class="form-control" id="edit_date" wire:model="date"
+                                <label for="date">Date</label>
+                                <input type="date" class="form-control" id="date" wire:model="date"
                                     required>
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="edit_supplier">Supplier</label>
-                                <select class="form-control" id="edit_supplier" wire:model="suppliers_id" required>
+                                <label for="supplier">Supplier</label>
+                                <select class="form-control" id="supplier" wire:model="suppliersID" required>
                                     <option value="">Select Supplier</option>
-                                    {{-- @foreach ($suppliers as $supplier)
+                                    @foreach ($suppliers as $supplier)
                                         <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
-                                    @endforeach --}}
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="edit_remark">Remark</label>
-                            <textarea class="form-control" id="edit_remark" rows="3" wire:model="remark"></textarea>
+                            <label for="remark">Remark</label>
+                            <textarea class="form-control" id="remark" rows="3" wire:model="remark"></textarea>
                         </div>
 
                         <div class="form-group">
-                            <label for="edit_void_status">Void Status</label>
-                            <select class="form-control" id="edit_void_status" wire:model="void_status" required>
-                                <option value="N">No</option>
+                            <label for="void">Void</label>
+                            <select class="form-control" id="void" wire:model="void" required>
+                                <option value="">Select Void</option>
                                 <option value="Y">Yes</option>
+                                <option value="N">No</option>
+
                             </select>
+
+                            <div class="form-group">
+                                <label for="product">Product</label>
+
+                                <select class="form-control" id="product" wire:model.live="productID" required>
+                                    <option value="">Select Product</option>
+                                    @foreach ($products as $product)
+                                        <option value="{{ $product->id }}">{{ $product->product_name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="quantity">Quantity</label>
+                                <input type="number" class="form-control" id="quantity" wire:model.live="quantity"
+                                    required>
+                            </div>
                         </div>
 
-                        <hr>
-                        <h5>Sale Items</h5>
-
-                        <div class="table-responsive">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>Product</th>
-                                        <th>Quantity</th>
-                                        <th>Price</th>
-                                        <th>Total</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {{-- @foreach ($saleItems as $index => $item)
-                                        <tr>
-                                            <td>{{ $item['product_name'] }}</td>
-                                            <td>{{ $item['qty'] }}</td>
-                                            <td>{{ number_format($item['price'], 2) }}</td>
-                                            <td>{{ number_format($item['qty'] * $item['price'], 2) }}</td>
-                                            <td>
-                                                <button type="button" class="btn btn-sm btn-danger"
-                                                    wire:click="removeItem({{ $index }})">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    @endforeach --}}
-                                </tbody>
-                            </table>
-                        </div>
 
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                wire:click="closeModal">Close</button>
                             <button type="submit" class="btn btn-primary">Update Sale</button>
                         </div>
                     </form>
@@ -331,6 +317,10 @@
     <script>
         Livewire.on('formSubmitted', () => {
             $('#modalAdd').modal('hide');
+
+        });
+        Livewire.on('formEditSubmitted', () => {
+            $('#modalEdit').modal('hide');
         });
     </script>
 @endpush

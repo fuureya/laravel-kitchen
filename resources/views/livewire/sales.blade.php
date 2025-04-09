@@ -59,7 +59,7 @@
 
                 <!-- Pagination -->
                 <div class="mt-4">
-                    {{-- {{ $sales->links() }} --}}
+                    {{ $data->links() }}
                 </div>
             </div>
         </div>

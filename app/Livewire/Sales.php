@@ -16,12 +16,9 @@ class Sales extends Component
 {
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
-    public $date, $suppliersID, $remark, $productID, $quantity, $price, $void, $saveState = false, $insertBy, $insertDate, $total;
+    public $date, $suppliersID, $remark, $productID, $quantity, $price, $void, $insertBy, $insertDate, $total;
 
-    public function mount()
-    {
-        $this->enableSave();
-    }
+
     public function resetForm()
     {
         $this->reset([
@@ -34,7 +31,6 @@ class Sales extends Component
             'void',
             'insertBy',
             'insertDate',
-            'saveState',
             'total'
         ]);
     }
@@ -53,14 +49,12 @@ class Sales extends Component
         $this->void = $sales->void_status;
         $this->insertBy = $sales->insert_by;
         $this->insertDate = $sales->insert_date;
-
         $salesDetail = SalesDetail::where('sales_id', $id)->first();
         $getProductName = Product::where('id', $salesDetail->sales_product_id)->select('product_name', 'price')->first();
         $this->productID = $getProductName->product_name;
         $this->price = $getProductName->price;
         $this->quantity = $salesDetail->qty;
         $this->total = $salesDetail->price;
-        // $this->productID = $salesDetail->product->name;
     }
 
 
@@ -71,8 +65,6 @@ class Sales extends Component
         $this->suppliersID = $sales->suppliers_id;
         $this->remark = $sales->remark;
         $this->void = $sales->void_status;
-
-
         $salesDetail = SalesDetail::where('sales_id', $id)->first();
         $getProductName = Product::where('id', $salesDetail->sales_product_id)->select('product_name', 'price')->first();
         $this->productID = $salesDetail->sales_product_id;
@@ -156,10 +148,6 @@ class Sales extends Component
         $this->dispatch('formEditSubmitted');
     }
 
-    public function enableSave()
-    {
-        $this->saveState = true;
-    }
 
     public function delete($id)
     {

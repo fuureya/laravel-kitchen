@@ -50,12 +50,10 @@
                                                 <i class="fas fa-edit text-success"></i>
                                             </button>
                                         @endif
-                                        @if (in_array('hapus-sales', auth()->user()->permissions))
-                                            <button wire:click="delete('{{ $sale->id }}')" class="btn"
-                                                wire:confirm="Yakin Ingin Menghapus?">
-                                                <i class="fas fa-trash text-danger"></i>
-                                            </button>
-                                        @endif
+                                        <button wire:click="delete('{{ $sale->id }}')" class="btn"
+                                            wire:confirm="Yakin Ingin Menghapus?">
+                                            <i class="fas fa-trash text-danger"></i>
+                                        </button>
                                     </td>
                                 </tr>
                             @endforeach

@@ -49,6 +49,12 @@ class Sales extends Component
         $this->dispatch('formSubmitted');
     }
 
+    public function delete($id)
+    {
+        ModelsSales::find($id)->delete();
+        session()->flash('message', 'Data berhasil dihapus');
+    }
+
     public function render()
     {
         $suppliers = Suppliers::select('name', 'id')->get();

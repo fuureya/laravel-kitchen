@@ -16,7 +16,7 @@ class Sales extends Component
 {
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
-    public $date, $suppliersID, $remark, $productID, $quantity, $price, $void, $insertBy, $insertDate, $total;
+    public $date, $suppliersID, $remark, $productID, $quantity, $price, $void, $insertBy, $insertDate, $total, $token;
 
 
     public function resetForm()
@@ -31,7 +31,8 @@ class Sales extends Component
             'void',
             'insertBy',
             'insertDate',
-            'total'
+            'total',
+            'token'
         ]);
     }
 
@@ -61,6 +62,7 @@ class Sales extends Component
     public function edit($id)
     {
         $sales = ModelsSales::find($id);
+        $this->token = $id;
         $this->date = $sales->date;
         $this->suppliersID = $sales->suppliers_id;
         $this->remark = $sales->remark;
@@ -87,7 +89,7 @@ class Sales extends Component
         $getProductPrice = Product::where('id', $this->productID)->select('price')->first();
         $localPrice = $getProductPrice->price * $this->quantity;
 
-        $sales = ModelsSales::where('id', $this->id)->first();
+        $sales = ModelsSales::where('id', $this->token)->first();
         $sales->update([
             'date' => $this->date,
             'suppliers_id' => $this->suppliersID,
@@ -97,7 +99,7 @@ class Sales extends Component
             'update_date' => Carbon::now()
         ]);
 
-        $salesDetail = SalesDetail::where('sales_id', $this->id)->first();
+        $salesDetail = SalesDetail::where('sales_id', $this->token)->first();
         $salesDetail->update([
             'sales_product_id' => $this->productID,
             'qty' => $this->quantity,
@@ -107,7 +109,7 @@ class Sales extends Component
         ]);
 
         session()->flash('message', 'Sales Updated Successfully');
-        dispatch('formSubmitted');
+        $this->dispatch('formEditSubmitted');
     }
 
 
@@ -143,9 +145,9 @@ class Sales extends Component
             'insert_date' => Carbon::now()
         ]);
 
+        $this->dispatch('formSubmitted');
         session()->flash('Message', 'Data berhasil disimpan');
         $this->resetForm();
-        $this->dispatch('formEditSubmitted');
     }
 
 

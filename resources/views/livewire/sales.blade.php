@@ -86,7 +86,7 @@
                     </div>
                 @endif
                 <div class="modal-body">
-                    <form wire:submit.prevent="store">
+                    <form>
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="date">Date</label>
@@ -139,7 +139,7 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal"
                                 wire:click="closeModal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save Sale</button>
+                            <button class="btn btn-primary" wire:click="store">Save Sale</button>
                         </div>
                     </form>
                 </div>
@@ -147,30 +147,7 @@
         </div>
     </div>
 
-    <!-- Modal Add Item -->
-    <div wire:ignore.self class="modal fade" id="modalAddItem" data-backdrop="static" data-keyboard="false"
-        tabindex="-1" aria-labelledby="modalAddItemLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl ">
-            <div class="modal-content ">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalAddItemLabel">Add Sale Item</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form wire:submit.prevent="addItem">
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary" data-dismiss="modal">Add
-                                Item</button>
-                        </div>
-                    </form>
-                </div>
 
-            </div>
-        </div>
-    </div>
 
     <!-- Modal Show Detail -->
     <div wire:ignore.self class="modal fade" id="modalShowDetail" data-backdrop="static" data-keyboard="false"
@@ -250,7 +227,7 @@
                     </div>
                 @endif
                 <div class="modal-body">
-                    <form wire:submit.prevent="store">
+                    <form>
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="date">Date</label>
@@ -304,7 +281,7 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal"
                                 wire:click="closeModal">Close</button>
-                            <button type="submit" class="btn btn-primary">Update Sale</button>
+                            <button type="submit" wire:click="update" class="btn btn-primary">Update Sale</button>
                         </div>
                     </form>
                 </div>

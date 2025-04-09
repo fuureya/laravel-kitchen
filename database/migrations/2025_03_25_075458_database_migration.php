@@ -177,7 +177,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('sales_id');
             $table->unsignedBigInteger('sales_product_id');
             $table->integer('qty');
-            $table->decimal('price', 15, 2);
+            $table->integer('price');
             $table->timestamp('insert_date')->nullable();
             $table->string('insert_by')->nullable();
             $table->foreign('sales_id')->references('id')->on('sales')->onDelete('cascade');

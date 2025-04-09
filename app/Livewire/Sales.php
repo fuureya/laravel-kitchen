@@ -9,12 +9,14 @@ use App\Models\Suppliers;
 use Carbon\Carbon;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Livewire\Attributes\On;
+
 
 class Sales extends Component
 {
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
-    public $date, $suppliersID, $remark, $productID = 1, $quantity, $price, $void, $saveState = false;
+    public $date, $suppliersID, $remark, $productID, $quantity, $price, $void, $saveState = false;
 
     public function mount()
     {
@@ -33,12 +35,9 @@ class Sales extends Component
         ]);
     }
 
-    public function enableSave()
-    {
-        if ($this->productID) {
-            dd($this->productID);
-        }
-    }
+
+
+
 
     public function store()
     {
@@ -49,7 +48,8 @@ class Sales extends Component
             'void' => 'required'
         ]);
 
-
+        $getProductPrice = Product::where('id', $this->productID)->select('price')->first();
+        $localPrice = $getProductPrice->price * $this->quantity;
 
         ModelsSales::create([
             'date' => $this->date,
@@ -64,7 +64,7 @@ class Sales extends Component
             'sales_id' => ModelsSales::latest()->first()->id,
             'sales_product_id' => $this->productID,
             'qty' => $this->quantity,
-            'price' => $this->price,
+            'price' => $localPrice,
             'insert_by' => auth()->user()->name,
             'insert_date' => Carbon::now()
         ]);
@@ -78,6 +78,11 @@ class Sales extends Component
     {
         ModelsSales::find($id)->delete();
         session()->flash('message', 'Data berhasil dihapus');
+    }
+
+    public function enableSave()
+    {
+        $this->saveState = true;
     }
 
     public function render()

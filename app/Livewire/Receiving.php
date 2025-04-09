@@ -45,6 +45,7 @@ class Receiving extends Component
     }
 
     #[On('inventory-updated')]
+
     public function getUoms()
     {
         if (!empty($this->inventory)) {

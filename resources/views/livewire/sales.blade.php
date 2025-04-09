@@ -186,6 +186,7 @@
                     <form wire:submit.prevent="addItem">
                         <div class="form-group">
                             <label for="product">Product</label>
+                            {{ $productID }}
                             <select class="form-control" id="product" wire:model.live="productID" required>
                                 <option value="">Select Product</option>
                                 @foreach ($products as $product)
@@ -196,10 +197,10 @@
                         <div class="form-group">
                             <label for="quantity">Quantity</label>
                             <input type="number" class="form-control" id="quantity" wire:model.live="quantity"
-                                required min="1">
+                                required>
                         </div>
                         <div class="form-group">
-                            <label for="price">Price</label>
+                            <label for="price">{{ $price }}</label>
                             <input type="number" class="form-control" id="price" wire:model.live="price"
                                 required>
                         </div>

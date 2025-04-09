@@ -27,9 +27,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- @foreach ($sales as $sale)
+                            @foreach ($data as $sale)
                                 <tr>
-                                    <td>{{ $sale->id }}</td>
+                                    <td>{{ $loop->iteration }}</td>
                                     <td>{{ $sale->supplier->name }}</td>
                                     <td>{{ $sale->date }}</td>
                                     <td>{{ $sale->remark }}</td>
@@ -58,7 +58,7 @@
                                         @endif
                                     </td>
                                 </tr>
-                            @endforeach --}}
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -100,7 +100,7 @@
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="supplier">Supplier</label>
-                                <select class="form-control" id="supplier" wire:model="suppliers_id" required>
+                                <select class="form-control" id="supplier" wire:model="suppliersID" required>
                                     <option value="">Select Supplier</option>
                                     @foreach ($suppliers as $supplier)
                                         <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
@@ -112,6 +112,16 @@
                         <div class="form-group">
                             <label for="remark">Remark</label>
                             <textarea class="form-control" id="remark" rows="3" wire:model="remark"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="void">Void</label>
+                            <select class="form-control" id="void" wire:model="void" required>
+                                <option value="">Select Void</option>
+                                <option value="Y">Yes</option>
+                                <option value="N">No</option>
+
+                            </select>
                         </div>
 
                         <hr>
@@ -177,7 +187,7 @@
                     <form>
                         <div class="form-group">
                             <label for="product">Product</label>
-                            <select class="form-control" id="product" wire:model="product_id" required>
+                            <select class="form-control" id="product" wire:model="productID" required>
                                 <option value="">Select Product</option>
                                 @foreach ($products as $product)
                                     <option value="{{ $product->id }}">{{ $product->name }}</option>

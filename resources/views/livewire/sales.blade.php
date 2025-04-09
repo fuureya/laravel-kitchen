@@ -162,7 +162,8 @@
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save Sale</button>
+                            <button type="submit" class="btn btn-primary"
+                                {{ $saveState == 'true' ? '' : 'disabled' }}>Save Sale</button>
                         </div>
                     </form>
                 </div>
@@ -173,8 +174,8 @@
     <!-- Modal Add Item -->
     <div wire:ignore.self class="modal fade" id="modalAddItem" data-backdrop="static" data-keyboard="false"
         tabindex="-1" aria-labelledby="modalAddItemLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
+        <div class="modal-dialog modal-xl ">
+            <div class="modal-content ">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalAddItemLabel">Add Sale Item</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -182,33 +183,34 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form wire:submit.prevent="addItem">
                         <div class="form-group">
                             <label for="product">Product</label>
-                            <select class="form-control" id="product" wire:model="productID" required>
+                            <select class="form-control" id="product" wire:model.live="productID" required>
                                 <option value="">Select Product</option>
                                 @foreach ($products as $product)
-                                    <option value="{{ $product->id }}">{{ $product->name }}</option>
+                                    <option value="{{ $product->id }}">{{ $product->product_name }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="quantity">Quantity</label>
-                            <input type="number" class="form-control" id="quantity" wire:model="quantity" required
-                                min="1">
+                            <input type="number" class="form-control" id="quantity" wire:model.live="quantity"
+                                required min="1">
                         </div>
                         <div class="form-group">
                             <label for="price">Price</label>
-                            <input type="number" step="0.01" class="form-control" id="price"
-                                wire:model="price" required min="0">
+                            <input type="number" class="form-control" id="price" wire:model.live="price"
+                                required>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Add
+                                Item</button>
                         </div>
                     </form>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" wire:click="addItem">Add
-                        Item</button>
-                </div>
+
             </div>
         </div>
     </div>

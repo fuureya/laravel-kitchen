@@ -166,7 +166,6 @@ return new class extends Migration {
             $table->timestamp('insert_date')->nullable();
             $table->string('last_update_by')->nullable();
             $table->timestamp('last_update_time')->nullable();
-
             $table->foreign('suppliers_id')->references('id')->on('suppliers')->onDelete('cascade');
             $table->timestamps();
         });

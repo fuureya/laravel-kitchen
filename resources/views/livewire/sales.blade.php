@@ -12,8 +12,8 @@
                         <i class="fas fa-plus"></i> Add New
                     </button>
                 </div>
-                <div class="table-responsive">
-                    <table class="table table-bordered" style="width:100%">
+                <div class="table-responsive ">
+                    <table class="table table-bordered ">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -37,19 +37,15 @@
                                     <td>{{ $sale->insert_by }}</td>
                                     <td>{{ $sale->insert_date }}</td>
                                     <td>
-                                        <button class="btn" wire:click='printSale({{ $sale->id }})'>
-                                            <i class="fas fa-print text-success"></i>
-                                        </button>
+
                                         <button wire:click="showDetail('{{ $sale->id }}')" class="btn"
                                             data-toggle="modal" data-target="#modalShowDetail">
                                             <i class="fas fa-eye text-primary"></i>
                                         </button>
-                                        @if (in_array('update-sales', auth()->user()->permissions))
-                                            <button wire:click="edit('{{ $sale->id }}')" class="btn"
-                                                data-toggle="modal" data-target="#modalEdit">
-                                                <i class="fas fa-edit text-success"></i>
-                                            </button>
-                                        @endif
+                                        <button wire:click="edit('{{ $sale->id }}')" class="btn"
+                                            data-toggle="modal" data-target="#modalEdit">
+                                            <i class="fas fa-edit text-success"></i>
+                                        </button>
                                         <button wire:click="delete('{{ $sale->id }}')" class="btn"
                                             wire:confirm="Yakin Ingin Menghapus?">
                                             <i class="fas fa-trash text-danger"></i>
@@ -120,50 +116,30 @@
                                 <option value="N">No</option>
 
                             </select>
+
+                            <div class="form-group">
+                                <label for="product">Product</label>
+                                {{ $productID }}
+                                <select class="form-control" id="product" wire:model.live="productID" required>
+                                    <option value="">Select Product</option>
+                                    @foreach ($products as $product)
+                                        <option value="{{ $product->id }}">{{ $product->product_name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="quantity">Quantity</label>
+                                <input type="number" class="form-control" id="quantity" wire:model.live="quantity"
+                                    required>
+                            </div>
                         </div>
 
-                        <hr>
-                        <h5>Sale Items</h5>
-
-                        <button type="button" class="btn btn-primary mb-3" data-toggle="modal"
-                            data-target="#modalAddItem">
-                            <i class="fas fa-plus"></i> Add Item
-                        </button>
-
-                        <div class="table-responsive">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>Product</th>
-                                        <th>Quantity</th>
-                                        <th>Price</th>
-                                        <th>Total</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {{-- @foreach ($saleItems as $index => $item)
-                                        <tr>
-                                            <td>{{ $item['product_name'] }}</td>
-                                            <td>{{ $item['qty'] }}</td>
-                                            <td>{{ number_format($item['price'], 2) }}</td>
-                                            <td>{{ number_format($item['qty'] * $item['price'], 2) }}</td>
-                                            <td>
-                                                <button type="button" class="btn btn-sm btn-danger"
-                                                    wire:click="removeItem({{ $index }})">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    @endforeach --}}
-                                </tbody>
-                            </table>
-                        </div>
 
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary"
-                                {{ $saveState == 'true' ? '' : 'disabled' }}>Save Sale</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                wire:click="closeModal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save Sale</button>
                         </div>
                     </form>
                 </div>
@@ -184,26 +160,6 @@
                 </div>
                 <div class="modal-body">
                     <form wire:submit.prevent="addItem">
-                        <div class="form-group">
-                            <label for="product">Product</label>
-                            {{ $productID }}
-                            <select class="form-control" id="product" wire:model.live="productID" required>
-                                <option value="">Select Product</option>
-                                @foreach ($products as $product)
-                                    <option value="{{ $product->id }}">{{ $product->product_name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="quantity">Quantity</label>
-                            <input type="number" class="form-control" id="quantity" wire:model.live="quantity"
-                                required>
-                        </div>
-                        <div class="form-group">
-                            <label for="price">{{ $price }}</label>
-                            <input type="number" class="form-control" id="price" wire:model.live="price"
-                                required>
-                        </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             <button type="button" class="btn btn-primary" data-dismiss="modal">Add
@@ -231,15 +187,15 @@
                     <div class="row mb-4">
                         <div class="col-md-6">
                             <h5>Sale Information</h5>
-                            <p><strong>Date:</strong> {{ $saleDetail->date ?? '' }}</p>
-                            <p><strong>Supplier:</strong> {{ $saleDetail->supplier->name ?? '' }}</p>
-                            <p><strong>Remark:</strong> {{ $saleDetail->remark ?? '' }}</p>
+                            <p><strong>Date:</strong> {{ $date }}</p>
+                            <p><strong>Supplier:</strong> {{ $suppliersID }}</p>
+                            <p><strong>Remark:</strong> {{ $remark ?? '' }}</p>
                         </div>
                         <div class="col-md-6">
                             <h5>Status</h5>
-                            <p><strong>Void Status:</strong> {{ $saleDetail->void_status ?? '' }}</p>
-                            <p><strong>Insert By:</strong> {{ $saleDetail->insert_by ?? '' }}</p>
-                            <p><strong>Insert Date:</strong> {{ $saleDetail->insert_date ?? '' }}</p>
+                            <p><strong>Void Status:</strong> {{ $void }}</p>
+                            <p><strong>Insert By:</strong> {{ $insertBy }}</p>
+                            <p><strong>Insert Date:</strong> {{ $insertDate }}</p>
                         </div>
                     </div>
 
@@ -255,20 +211,19 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {{-- @foreach ($saleItemsDetail as $item)
-                                    <tr>
-                                        <td>{{ $item->product->name }}</td>
-                                        <td>{{ $item->qty }}</td>
-                                        <td>{{ number_format($item->price, 2) }}</td>
-                                        <td>{{ number_format($item->qty * $item->price, 2) }}</td>
-                                    </tr>
-                                @endforeach --}}
+                                <tr>
+                                    <td>{{ $productID }}</td>
+                                    <td>{{ $quantity }}</td>
+                                    <td>{{ number_format($price, 2) }}</td>
+                                    <td>Rp. {{ number_format($total, 2) }}</td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                        wire:click='closeModal'>Close</button>
                 </div>
             </div>
         </div>
@@ -374,19 +329,8 @@
 
 @push('scripts')
     <script>
-        document.addEventListener('livewire:load', function() {
-            Livewire.on('saleSaved', () => {
-                $('#modalAdd').modal('hide');
-                $('#modalAddItem').modal('hide');
-            });
-
-            Livewire.on('saleUpdated', () => {
-                $('#modalEdit').modal('hide');
-            });
-
-            Livewire.on('itemAdded', () => {
-                $('#modalAddItem').modal('hide');
-            });
+        Livewire.on('formSubmitted', () => {
+            $('#modalAdd').modal('hide');
         });
     </script>
 @endpush

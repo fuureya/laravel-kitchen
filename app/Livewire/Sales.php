@@ -16,7 +16,7 @@ class Sales extends Component
 {
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
-    public $date, $suppliersID, $remark, $productID, $quantity, $price, $void, $saveState = false;
+    public $date, $suppliersID, $remark, $productID, $quantity, $price, $void, $saveState = false, $insertBy, $insertDate, $total;
 
     public function mount()
     {
@@ -31,10 +31,37 @@ class Sales extends Component
             'productID',
             'quantity',
             'price',
-            'void'
+            'void',
+            'insertBy',
+            'insertDate',
+            'saveState',
+            'total'
         ]);
     }
 
+    public function closeModal()
+    {
+        $this->resetForm();
+    }
+
+    public function showDetail($id)
+    {
+        $sales = ModelsSales::find($id);
+        $this->date = $sales->date;
+        $this->suppliersID = $sales->supplier->name;
+        $this->remark = $sales->remark;
+        $this->void = $sales->void_status;
+        $this->insertBy = $sales->insert_by;
+        $this->insertDate = $sales->insert_date;
+
+        $salesDetail = SalesDetail::where('sales_id', $id)->first();
+        $getProductName = Product::where('id', $salesDetail->sales_product_id)->select('product_name', 'price')->first();
+        $this->productID = $getProductName->product_name;
+        $this->price = $getProductName->price;
+        $this->quantity = $salesDetail->qty;
+        $this->total = $salesDetail->price;
+        // $this->productID = $salesDetail->product->name;
+    }
 
 
 
@@ -45,7 +72,9 @@ class Sales extends Component
             'date' => 'required',
             'suppliersID' => 'required',
             'remark' => 'required',
-            'void' => 'required'
+            'void' => 'required',
+            'productID' => 'required',
+            'quantity' => 'required'
         ]);
 
         $getProductPrice = Product::where('id', $this->productID)->select('price')->first();
@@ -74,16 +103,18 @@ class Sales extends Component
         $this->dispatch('formSubmitted');
     }
 
+    public function enableSave()
+    {
+        $this->saveState = true;
+    }
+
     public function delete($id)
     {
         ModelsSales::find($id)->delete();
         session()->flash('message', 'Data berhasil dihapus');
     }
 
-    public function enableSave()
-    {
-        $this->saveState = true;
-    }
+
 
     public function render()
     {

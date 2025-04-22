@@ -107,19 +107,9 @@ return new class extends Migration {
             $table->timestamps();
         });
 
-        // Recipe  Table
-        Schema::create('recipes', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->longText('recipes');
-            $table->timestamp('insert_time');
-            $table->string('insert_by');
-            $table->string('update_by')->nullable();
-            $table->timestamp('last_update_time')->nullable();
-            $table->timestamps();
-        });
 
-        // Recipe  Table
+
+        // Receiving purchase  Table
         Schema::create('receiving_purchase', function (Blueprint $table) {
             $table->id();
             $table->foreignId('receiving_id')->references('id')->on('receiving')->on('receiving')->onDelete('cascade');;
@@ -131,6 +121,18 @@ return new class extends Migration {
             $table->enum('status', ['lunas', 'belum lunas']);
             $table->timestamp('insert_time');
             $table->string('insert_by');
+            $table->timestamps();
+        });
+
+        // Recipe  Table
+        Schema::create('recipes', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->longText('recipes');
+            $table->timestamp('insert_time');
+            $table->string('insert_by');
+            $table->string('update_by')->nullable();
+            $table->timestamp('last_update_time')->nullable();
             $table->timestamps();
         });
 
@@ -181,6 +183,21 @@ return new class extends Migration {
             $table->string('insert_by')->nullable();
             $table->foreign('sales_id')->references('id')->on('sales')->onDelete('cascade');
             $table->foreign('sales_product_id')->references('id')->on('products')->onDelete('cascade');
+            $table->timestamps();
+        });
+
+        // receiving out 
+        Schema::create('receiving_out', function (Blueprint $table) {
+            $table->id();
+            $table->string('receiving_uot_id', 50)->unique();
+            $table->foreignId('inventory_id')->constrained('barang_inventory');
+            $table->integer('qty');
+            $table->date('date');
+            $table->text('remark')->nullable();
+            $table->string('insert_by');
+            $table->timestamp('insert_date');
+            $table->string('last_update_by')->nullable();
+            $table->timestamp('last_update_time')->nullable();
             $table->timestamps();
         });
     }

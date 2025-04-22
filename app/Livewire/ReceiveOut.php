@@ -2,12 +2,18 @@
 
 namespace App\Livewire;
 
+use App\Models\Inventory;
+use App\Models\ReceivingDetail;
 use Livewire\Component;
+
 
 class ReceiveOut extends Component
 {
     public function render()
     {
-        return view('livewire.receive-out');
+        $barang = Inventory::select('name')->get();
+        return view('livewire.receive-out', [
+            'barang' => $barang
+        ]);
     }
 }

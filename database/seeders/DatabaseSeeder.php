@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -224,5 +226,56 @@ class DatabaseSeeder extends Seeder
                 'updated_at' => $now,
             ],
         ]);
+
+
+        $faker = Faker::create();
+
+        for ($i = 1; $i <= 20; $i++) {
+            $receivingId = DB::table('receiving')->insertGetId([
+                'receiving_id' => 'RCV-' . Str::upper(Str::random(8)),
+                'date' => $faker->date(),
+                'remark' => $faker->optional()->sentence(),
+                'supplier_id' => $faker->numberBetween(1, 2), // adjust for your supplier table
+                'insert_by' => 'admin',
+                'insert_date' => Carbon::now(),
+                'last_update_by' => null,
+                'last_update_time' => null,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            // Insert 2-4 details per receiving
+            $detailCount = rand(2, 4);
+            for ($j = 1; $j <= $detailCount; $j++) {
+                DB::table('receiving_detail')->insert([
+                    'receiving_id' => $receivingId,
+                    'receiving_code' => 'RCV-DET-' . Str::upper(Str::random(6)),
+                    'inventory_id' => $faker->numberBetween(1, 3), // adjust for inventory IDs
+                    'qty' => $faker->numberBetween(1, 100),
+                    'price' => $faker->numberBetween(1000, 10000),
+                    'price_qty' => $faker->numberBetween(1000, 100000),
+                    'insert_by' => 'admin',
+                    'insert_date' => Carbon::now(),
+                    'last_update_by' => null,
+                    'last_update_time' => null,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+
+            DB::table('receiving_purchase')->insert([
+                'receiving_id' => $receivingId,
+                'receiving_code' => 'PUR-' . Str::upper(Str::random(6)),
+                'name' => $faker->company,
+                'payment_name' => $faker->optional()->word(),
+                'total' => $faker->numberBetween(10000, 1000000),
+                'purchase' => $faker->randomElement(['kredit', 'debit']),
+                'status' => $faker->randomElement(['lunas', 'belum lunas']),
+                'insert_time' => Carbon::now(),
+                'insert_by' => 'admin',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
     }
 }

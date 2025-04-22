@@ -54,6 +54,7 @@ class ReceiveOut extends Component
             'remarks' => 'required',
         ]);
 
+
         // check is stock full
         $stock = ReceivingDetail::where('inventory_id', $this->inven)->sum('qty');
         if ($stock < $this->quantity) {
@@ -67,7 +68,7 @@ class ReceiveOut extends Component
                 'inventory_id' => $this->inven,
                 'quantity' => $this->quantity,
                 'price' => $this->price,
-                'remarks' => $this->remarks,
+                'remark' => $this->remarks,
                 'insert_by' => auth()->user()->name,
                 'insert_date' => Carbon::now()
             ]);
@@ -76,6 +77,52 @@ class ReceiveOut extends Component
             $this->dispatch('formSubmitted');
             session()->flash('message', 'Record Added Successfully.');
         }
+    }
+
+    public function edit($id)
+    {
+        $data = ModelsReceiveOut::find($id);
+        $this->date = $data->date;
+        $this->inven = $data->inventory_id;
+        $this->quantity = $data->quantity;
+        $this->remarks = $data->remark;
+        $this->code = $data->id;
+    }
+
+    public function update()
+    {
+        $this->validate([
+            'date' => 'required',
+            'inven' => 'required',
+            'quantity' => 'required',
+            'remarks' => 'required',
+        ]);
+
+        $stock = ReceivingDetail::where('inventory_id', $this->inven)->sum('qty');
+        if ($stock < $this->quantity) {
+            session()->flash('error', 'Stock is not enough');
+            $this->resetState();
+            $this->dispatch('formEditSubmitted');
+        } else {
+            ModelsReceiveOut::find($this->code)->update([
+                'date' => $this->date,
+                'inventory_id' => $this->inven,
+                'quantity' => $this->quantity,
+                'remark' => $this->remarks,
+                'last_update_by' => auth()->user()->name,
+                'last_update_time' => Carbon::now()
+            ]);
+
+            $this->resetState();
+            $this->dispatch('formEditSubmitted');
+            session()->flash('message', 'Record Updated Successfully.');
+        }
+    }
+
+    public function delete($id)
+    {
+        ModelsReceiveOut::find($id)->delete();
+        session()->flash('message', 'Record Deleted Successfully.');
     }
     public function render()
     {

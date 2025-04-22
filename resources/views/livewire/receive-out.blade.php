@@ -138,43 +138,12 @@
                             <label for="exampleFormControlTextarea1">Remarsk</label>
                             <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" wire:model='remarks'></textarea>
                         </div>
-
-                        <button type="button" class="btn btn-primary mt-3" data-toggle="modal"
-                            data-target="#modalAddDetail">
-                            <i class="fas fa-plus"></i> Add Details
-                        </button>
-
-
-                        <div class="mt-5 list-detail overflow-auto">
-                            <table class="table table-bordered" style="width:100%">
-                                <thead>
-                                    <tr>
-
-                                        <th>Receiving ID</th>
-                                        <th>Inventory Name</th>
-                                        <th>Quantity</th>
-                                        <th>Price</th>
-                                        <th>Price Quantity</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        {{-- <td>{{ $receivingID }}</td>
-                                        <td>{{ $namaInventory }}</td>
-                                        <td>{{ $quantity }}</td>
-                                        <td>{{ $price }}</td>
-                                        <td>{{ $priceQuantity }}</td> --}}
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"
                         wire:click='closeReceiving'>Close</button>
-                    {{-- <button type="submit" class="btn btn-primary" {{ $saveState == 'true' ? '' : 'disabled' }}>Simpan
-                        Data</button> --}}
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Simpan Data</button>
                 </div>
                 </form>
 

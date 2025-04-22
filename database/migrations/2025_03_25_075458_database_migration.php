@@ -189,9 +189,9 @@ return new class extends Migration {
         // receiving out 
         Schema::create('receiving_out', function (Blueprint $table) {
             $table->id();
-            $table->string('receiving_uot_id', 50)->unique();
+            $table->string('receiving_out_id', 50)->unique();
             $table->foreignId('inventory_id')->constrained('barang_inventory');
-            $table->integer('qty');
+            $table->integer('quantity');
             $table->date('date');
             $table->text('remark')->nullable();
             $table->string('insert_by');

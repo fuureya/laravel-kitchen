@@ -109,7 +109,7 @@
 
                         <div class="form-group">
                             <label for="suppliers">Barang</label>
-                            <select class="form-control" id="suppliers" wire:model='suppliers'>
+                            <select class="form-control" id="suppliers" wire:model='inven'>
                                 <option>Pilih Barang</option>
                                 @foreach ($barang as $item)
                                     <option value="{{ $item->id }}">{{ $item->name }}</option>

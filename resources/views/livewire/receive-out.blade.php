@@ -4,6 +4,9 @@
             @if (session()->has('message'))
                 <div class="alert alert-success">{{ session('message') }}</div>
             @endif
+            @if (session()->has('error'))
+                <div class="alert alert-danger">{{ session('error') }}</div>
+            @endif
             <div class="card-body py-3">
                 <div class="my-5">
                     <h4 class="font-weight-bold text-primary">Receive Out</h4>
@@ -24,7 +27,8 @@
                                 <th>Receiving ID</th>
                                 <th>Tanggal</th>
                                 <th>Remark</th>
-                                <th>Supplier</th>
+                                <th>Inventory</th>
+                                <th>Quantity</th>
                                 <th>Insert By</th>
                                 <th>Insert Date</th>
                                 <th>Last Update By</th>
@@ -33,21 +37,20 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- @foreach ($data as $datas)
+                            @foreach ($data as $datas)
                                 <tr>
                                     <td>{{ $datas->id }}</td>
-                                    <td>{{ $datas->receiving_id }}</td>
+                                    <td>{{ $datas->receiving_out_id }}</td>
                                     <td>{{ $datas->date }}</td>
-                                    <td>{{ $datas->remark }}</td>
-                                    <td>{{ $datas->supplier->name }}</td>
+                                    <td>{{ $datas->remarks }}</td>
+                                    <td>{{ $datas->inventory->name }}</td>
+                                    <td>{{ $datas->quantity }}</td>
                                     <td>{{ $datas->insert_by }}</td>
                                     <td>{{ $datas->insert_date }}</td>
                                     <td>{{ $datas->last_update_by }}</td>
                                     <td>{{ $datas->last_update_time }}</td>
                                     <td>
-                                        <button class="btn" wire:click='printing({{ $datas->id }})'>
-                                            <i class="fas fa-print text-success"></i>
-                                        </button>
+
                                         <button wire:click="showDetail('{{ $datas->receiving_id }}')" class="btn"
                                             data-toggle="modal" data-target="#modalShowDetail"> <i
                                                 class="fas fa-eye text-primary"></i>
@@ -65,17 +68,15 @@
                                         @endif
                                     </td>
                                 </tr>
-                            @endforeach --}}
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
 
                 <!-- Pagination -->
                 <div class="mt-4">
-                    {{-- {{ $data->links() }} --}}
+                    {{ $data->links() }}
                 </div>
-
-
 
             </div>
         </div>
@@ -126,12 +127,6 @@
                                     {{-- {{ $uoms }} --}}
                                 </span>
                             </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="price_quantity">Price Quantity</label>
-                            <input type="number" class="form-control" id="price_quantity"
-                                placeholder="Enter Price Quantity" wire:model.live='priceQuantity' disabled>
                         </div>
 
                         <div class="form-group">

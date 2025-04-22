@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Inventory;
 use App\Models\ReceiveOut as ModelsReceiveOut;
+use App\Models\ReceivingDetail;
 use Carbon\Carbon;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -50,23 +51,31 @@ class ReceiveOut extends Component
             'date' => 'required',
             'inven' => 'required',
             'quantity' => 'required',
-            'price' => 'required',
             'remarks' => 'required',
         ]);
 
-        ModelsReceiveOut::create([
-            'date' => $this->date,
-            'receiving_out_id' => $this->generateUniqueCode(),
-            'inventory_id' => $this->inven,
-            'quantity' => $this->quantity,
-            'price' => $this->price,
-            'remarks' => $this->remarks,
-            'insert_by' => auth()->user()->name,
-            'insert_date' => Carbon::now()
-        ]);
+        // check is stock full
+        $stock = ReceivingDetail::where('inventory_id', $this->inven)->sum('qty');
+        if ($stock < $this->quantity) {
+            session()->flash('error', 'Stock is not enough');
+            $this->resetState();
+            $this->dispatch('formSubmitted');
+        } else {
+            ModelsReceiveOut::create([
+                'date' => $this->date,
+                'receiving_out_id' => $this->generateUniqueCode(),
+                'inventory_id' => $this->inven,
+                'quantity' => $this->quantity,
+                'price' => $this->price,
+                'remarks' => $this->remarks,
+                'insert_by' => auth()->user()->name,
+                'insert_date' => Carbon::now()
+            ]);
 
-        $this->resetState();
-        session()->flash('message', 'Record Added Successfully.');
+            $this->resetState();
+            $this->dispatch('formSubmitted');
+            session()->flash('message', 'Record Added Successfully.');
+        }
     }
     public function render()
     {

@@ -141,7 +141,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                        wire:click='closeReceiving'>Close</button>
+                        wire:click='closeButton'>Close</button>
                     <button type="submit" class="btn btn-primary">
                         <i class="fas fa-save"></i> Simpan Data</button>
                 </div>

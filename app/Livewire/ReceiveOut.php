@@ -20,6 +20,30 @@ class ReceiveOut extends Component
     {
         $this->reset(['date', 'inven', 'quantity', 'price', 'remarks', 'code']);
     }
+
+    public function closeButton()
+    {
+        $this->resetState();
+    }
+
+    public function generateUniqueCode()
+    {
+        $year = Carbon::now()->format('y');
+        $lastRecord = ModelsReceiveOut::where('receiving_out_id', 'like', "%" . "OUT{$year}" . "%")
+            ->orderBy('id', 'desc')
+            ->first();
+        // jika masih kosong sama sekali
+        if (is_null($lastRecord)) {
+            $newNumber = '00001';
+            return "OUT{$year}{$newNumber}";
+        }
+        // jika sudah pernah ada dalam db
+        if ($lastRecord) {
+            $lastNumber = (int)substr($lastRecord->receiving_out_id, -5);
+            $newNumber = str_pad($lastNumber + 1, 5, '0', STR_PAD_LEFT);
+            return "OUT{$year}{$newNumber}";
+        }
+    }
     public function store()
     {
         $this->validate([
@@ -32,7 +56,8 @@ class ReceiveOut extends Component
 
         ModelsReceiveOut::create([
             'date' => $this->date,
-            'inventory_id' => $this->inventory,
+            'receiving_out_id' => $this->generateUniqueCode(),
+            'inventory_id' => $this->inven,
             'quantity' => $this->quantity,
             'price' => $this->price,
             'remarks' => $this->remarks,
@@ -45,7 +70,7 @@ class ReceiveOut extends Component
     }
     public function render()
     {
-        $barang = Inventory::select('name')->get();
+        $barang = Inventory::select('name', 'id')->get();
         $data = ModelsReceiveOut::paginate(10);
         return view('livewire.receive-out', [
             'data' => $data,

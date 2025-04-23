@@ -70,6 +70,16 @@ class DatabaseSeeder extends Seeder
             'tambah-atur-user',
             'update-atur-user',
             'hapus-atur-user',
+
+            'view-payment',
+            'tambah-payment',
+            'update-payment',
+            'hapus-payment',
+
+            'view-products',
+            'tambah-products',
+            'update-products',
+            'hapus-products',
         ];
         $now = Carbon::now();
 

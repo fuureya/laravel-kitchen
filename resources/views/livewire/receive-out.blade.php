@@ -10,7 +10,7 @@
             <div class="card-body py-3">
                 <div class="my-5">
                     <h4 class="font-weight-bold text-primary">Receive Out</h4>
-                    @if (in_array('tambah-receiving', auth()->user()->permissions))
+                    @if (in_array('tambah-receive-out', auth()->user()->permissions))
                         <button type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#modalAdd">
                             <i class="fas fa-plus"></i>
                         </button>
@@ -19,60 +19,62 @@
 
 
                 </div>
-                <div class="table-responsive" style="overflow-x: auto">
-                    <table class="table table-bordered " style="width:100%; white-space: nowrap;">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Receiving ID</th>
-                                <th>Tanggal</th>
-                                <th>Remark</th>
-                                <th>Inventory</th>
-                                <th>Quantity</th>
-                                <th>Insert By</th>
-                                <th>Insert Date</th>
-                                <th>Last Update By</th>
-                                <th>Last Update Time</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($data as $datas)
+                @if (in_array('view-receive-out', auth()->user()->permissions))
+                    <div class="table-responsive" style="overflow-x: auto">
+                        <table class="table table-bordered " style="width:100%; white-space: nowrap;">
+                            <thead>
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $datas->receiving_out_id }}</td>
-                                    <td>{{ $datas->date }}</td>
-                                    <td>{{ $datas->remark }}</td>
-                                    <td>{{ $datas->inventory->name }}</td>
-                                    <td>{{ $datas->quantity }}</td>
-                                    <td>{{ $datas->insert_by }}</td>
-                                    <td>{{ $datas->insert_date }}</td>
-                                    <td>{{ $datas->last_update_by }}</td>
-                                    <td>{{ $datas->last_update_time }}</td>
-                                    <td>
-                                        @if (in_array('update-receiving', auth()->user()->permissions))
-                                            <button wire:click="edit('{{ $datas->id }}')" class="btn"
-                                                data-toggle="modal" data-target="#modalEdit"> <i
-                                                    class="fas fa-edit text-success"></i>
-                                            </button>
-                                        @endif
-                                        @if (in_array('hapus-receiving', auth()->user()->permissions))
-                                            <button wire:click="delete('{{ $datas->id }}')" class="btn"
-                                                wire:confirm="Yakin Ingin Menghapus?"><i
-                                                    class="fas fa-trash text-danger"></i></button>
-                                        @endif
-                                    </td>
+                                    <th>ID</th>
+                                    <th>Receiving ID</th>
+                                    <th>Tanggal</th>
+                                    <th>Remark</th>
+                                    <th>Inventory</th>
+                                    <th>Quantity</th>
+                                    <th>Insert By</th>
+                                    <th>Insert Date</th>
+                                    <th>Last Update By</th>
+                                    <th>Last Update Time</th>
+                                    <th>Actions</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+                            </thead>
+                            <tbody>
+                                @foreach ($data as $datas)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $datas->receiving_out_id }}</td>
+                                        <td>{{ $datas->date }}</td>
+                                        <td>{{ $datas->remark }}</td>
+                                        <td>{{ $datas->inventory->name }}</td>
+                                        <td>{{ $datas->quantity }}</td>
+                                        <td>{{ $datas->insert_by }}</td>
+                                        <td>{{ $datas->insert_date }}</td>
+                                        <td>{{ $datas->last_update_by }}</td>
+                                        <td>{{ $datas->last_update_time }}</td>
+                                        <td>
 
-                <!-- Pagination -->
-                <div class="mt-4">
-                    {{ $data->links() }}
-                </div>
+                                            @if (in_array('update-receive-out', auth()->user()->permissions))
+                                                <button wire:click="edit('{{ $datas->id }}')" class="btn"
+                                                    data-toggle="modal" data-target="#modalEdit"> <i
+                                                        class="fas fa-edit text-success"></i>
+                                                </button>
+                                            @endif
+                                            @if (in_array('hapus-receive-out', auth()->user()->permissions))
+                                                <button wire:click="delete('{{ $datas->id }}')" class="btn"
+                                                    wire:confirm="Yakin Ingin Menghapus?"><i
+                                                        class="fas fa-trash text-danger"></i></button>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
 
+                    <!-- Pagination -->
+                    <div class="mt-4">
+                        {{ $data->links() }}
+                    </div>
+                @endif
             </div>
         </div>
     </div>

@@ -8,51 +8,55 @@
             <div class="card-body py-3">
                 <div class="my-5">
                     <h4 class="font-weight-bold text-primary">Products</h4>
-
-                    <button type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#modalAdd">
-                        <i class="fas fa-plus"></i> Add Product
-                    </button>
-
+                    @if (in_array('tambah-products', auth()->user()->permissions))
+                        <button type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#modalAdd">
+                            <i class="fas fa-plus"></i> Add Product
+                        </button>
+                    @endif
                 </div>
-                <div class="table-responsive" style="overflow-x: auto">
-                    <table class="table table-bordered " style="width:100%; white-space: nowrap;">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Product Name</th>
-                                <th>Price</th>
-                                <th>Insert By</th>
-                                <th>Insert Time</th>
-                                <th>Last Update By</th>
-                                <th>Last Update Time</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($data as $product)
+                @if (in_array('view-products', auth()->user()->permissions))
+                    <div class="table-responsive" style="overflow-x: auto">
+                        <table class="table table-bordered " style="width:100%; white-space: nowrap;">
+                            <thead>
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $product->product_name }}</td>
-                                    <td>Rp. {{ number_format($product->price, 0, ',', '.') }}</td>
-                                    <td>{{ $product->insert_by }}</td>
-                                    <td>{{ $product->insert_date }}</td>
-                                    <td>{{ $product->last_update_by }}</td>
-                                    <td>{{ $product->last_update_time }}</td>
-                                    <td>
-
-                                        <button wire:click="edit({{ $product->id }})" class="btn"
-                                            data-toggle="modal" data-target="#modalEdit"><i
-                                                class="fas fa-edit text-success"></i></button>
-                                        <button wire:click="delete({{ $product->id }})" class="btn"
-                                            wire:confirm="Yakin Ingin Menghapus?"><i
-                                                class="fas fa-trash text-danger"></i></button>
-                                    </td>
+                                    <th>No</th>
+                                    <th>Product Name</th>
+                                    <th>Price</th>
+                                    <th>Insert By</th>
+                                    <th>Insert Time</th>
+                                    <th>Last Update By</th>
+                                    <th>Last Update Time</th>
+                                    <th>Actions</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-
+                            </thead>
+                            <tbody>
+                                @foreach ($data as $product)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $product->product_name }}</td>
+                                        <td>Rp. {{ number_format($product->price, 0, ',', '.') }}</td>
+                                        <td>{{ $product->insert_by }}</td>
+                                        <td>{{ $product->insert_date }}</td>
+                                        <td>{{ $product->last_update_by }}</td>
+                                        <td>{{ $product->last_update_time }}</td>
+                                        <td>
+                                            @if (in_array('update-products', auth()->user()->permissions))
+                                                <button wire:click="edit({{ $product->id }})" class="btn"
+                                                    data-toggle="modal" data-target="#modalEdit"><i
+                                                        class="fas fa-edit text-success"></i></button>
+                                            @endif
+                                            @if (in_array('hapus-products', auth()->user()->permissions))
+                                                <button wire:click="delete({{ $product->id }})" class="btn"
+                                                    wire:confirm="Yakin Ingin Menghapus?"><i
+                                                        class="fas fa-trash text-danger"></i></button>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                @endif
                 <!-- Pagination -->
                 <div class="mt-4">
                     {{ $data->links() }}

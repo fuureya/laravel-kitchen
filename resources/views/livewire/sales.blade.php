@@ -7,60 +7,68 @@
             <div class="card-body py-3">
                 <div class="my-5">
                     <h4 class="font-weight-bold text-primary">Sales</h4>
-
-                    <button type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#modalAdd">
-                        <i class="fas fa-plus"></i> Add New
-                    </button>
+                    @if (in_array('tambah-sales', auth()->user()->permissions))
+                        <button type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#modalAdd">
+                            <i class="fas fa-plus"></i> Add New
+                        </button>
+                    @endif
                 </div>
-                <div class="table-responsive" style="overflow-x: auto">
-                    <table class="table table-bordered " style="width:100%; white-space: nowrap;">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Supplier</th>
-                                <th>Date</th>
-                                <th>Remark</th>
-                                <th>Void Status</th>
-                                <th>Insert By</th>
-                                <th>Insert Date</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($data as $sale)
+                @if (in_array('view-sales', auth()->user()->permissions))
+                    <div class="table-responsive" style="overflow-x: auto">
+                        <table class="table table-bordered " style="width:100%; white-space: nowrap;">
+                            <thead>
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $sale->supplier->name }}</td>
-                                    <td>{{ $sale->date }}</td>
-                                    <td>{{ $sale->remark }}</td>
-                                    <td>{{ $sale->void_status }}</td>
-                                    <td>{{ $sale->insert_by }}</td>
-                                    <td>{{ $sale->insert_date }}</td>
-                                    <td>
-
-                                        <button wire:click="showDetail('{{ $sale->id }}')" class="btn"
-                                            data-toggle="modal" data-target="#modalShowDetail">
-                                            <i class="fas fa-eye text-primary"></i>
-                                        </button>
-                                        <button wire:click="edit('{{ $sale->id }}')" class="btn"
-                                            data-toggle="modal" data-target="#modalEdit">
-                                            <i class="fas fa-edit text-success"></i>
-                                        </button>
-                                        <button wire:click="delete('{{ $sale->id }}')" class="btn"
-                                            wire:confirm="Yakin Ingin Menghapus?">
-                                            <i class="fas fa-trash text-danger"></i>
-                                        </button>
-                                    </td>
+                                    <th>ID</th>
+                                    <th>Supplier</th>
+                                    <th>Date</th>
+                                    <th>Remark</th>
+                                    <th>Void Status</th>
+                                    <th>Insert By</th>
+                                    <th>Insert Date</th>
+                                    <th>Actions</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+                            </thead>
+                            <tbody>
+                                @foreach ($data as $sale)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $sale->supplier->name }}</td>
+                                        <td>{{ $sale->date }}</td>
+                                        <td>{{ $sale->remark }}</td>
+                                        <td>{{ $sale->void_status }}</td>
+                                        <td>{{ $sale->insert_by }}</td>
+                                        <td>{{ $sale->insert_date }}</td>
+                                        <td>
+                                            @if (in_array('view-sales', auth()->user()->permissions))
+                                                <button wire:click="showDetail('{{ $sale->id }}')" class="btn"
+                                                    data-toggle="modal" data-target="#modalShowDetail">
+                                                    <i class="fas fa-eye text-primary"></i>
+                                                </button>
+                                            @endif
+                                            @if (in_array('update-sales', auth()->user()->permissions))
+                                                <button wire:click="edit('{{ $sale->id }}')" class="btn"
+                                                    data-toggle="modal" data-target="#modalEdit">
+                                                    <i class="fas fa-edit text-success"></i>
+                                                </button>
+                                            @endif
+                                            @if (in_array('hapus-sales', auth()->user()->permissions))
+                                                <button wire:click="delete('{{ $sale->id }}')" class="btn"
+                                                    wire:confirm="Yakin Ingin Menghapus?">
+                                                    <i class="fas fa-trash text-danger"></i>
+                                                </button>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
 
-                <!-- Pagination -->
-                <div class="mt-4">
-                    {{ $data->links() }}
-                </div>
+                    <!-- Pagination -->
+                    <div class="mt-4">
+                        {{ $data->links() }}
+                    </div>
+                @endif
             </div>
         </div>
     </div>

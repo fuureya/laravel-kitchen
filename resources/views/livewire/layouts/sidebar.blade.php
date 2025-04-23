@@ -59,7 +59,6 @@
                 </a>
                 <div id="collapseThree" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="{{ url('/atur-hak-akses') }}">Atur Hak Akses</a>
                         <a class="collapse-item" href="{{ url('/atur-grup') }}">Atur Grup</a>
                         <a class="collapse-item" href="{{ url('/atur-user') }}">Atur User</a>
                     </div>

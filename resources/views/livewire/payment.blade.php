@@ -5,12 +5,14 @@
                 <div class="alert alert-success">{{ session('message') }}</div>
             @endif
             <div class="card-body py-3">
-                <div class="my-5">
-                    <h4 class="font-weight-bold text-primary">Payment</h4>
-                    <button type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#modalAdd">
-                        <i class="fas fa-plus"></i> Add Payment
-                    </button>
-                </div>
+                @if (in_array('tambah-payment', auth()->user()->permissions))
+                    <div class="my-5">
+                        <h4 class="font-weight-bold text-primary">Payment</h4>
+                        <button type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#modalAdd">
+                            <i class="fas fa-plus"></i> Add Payment
+                        </button>
+                    </div>
+                @endif
                 <div class="table-responsive" style="overflow-x: auto">
                     <table class="table table-bordered " style="width:100%; white-space: nowrap;">
                         <thead>
@@ -30,16 +32,18 @@
                                     <td>{{ $dat->insert_by }}</td>
                                     <td>{{ $dat->insert_time }}</td>
                                     <td>
-                                        @if (in_array('update-category', auth()->user()->permissions))
-                                            <button wire:click="edit({{ $dat->id }})" class="btn"
-                                                data-toggle="modal" data-target="#modalEdit"><i
-                                                    class="fas fa-edit text-success"></i></button>
-                                        @endif
-                                        @if (in_array('hapus-category', auth()->user()->permissions))
-                                            <button wire:click="delete({{ $dat->id }})" class="btn"
-                                                wire:confirm="Yakin Ingin Menghapus?"><i
-                                                    class="fas fa-trash text-danger"></i></button>
-                                        @endif
+                                        <div class="d-flex justify-content-center">
+                                            @if (in_array('update-payment', auth()->user()->permissions))
+                                                <button wire:click="edit({{ $dat->id }})" class="btn"
+                                                    data-toggle="modal" data-target="#modalEdit"><i
+                                                        class="fas fa-edit text-success"></i></button>
+                                            @endif
+                                            @if (in_array('hapus-payment', auth()->user()->permissions))
+                                                <button wire:click="delete({{ $dat->id }})" class="btn"
+                                                    wire:confirm="Yakin Ingin Menghapus?"><i
+                                                        class="fas fa-trash text-danger"></i></button>
+                                            @endif
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach

@@ -12,8 +12,8 @@
                         <i class="fas fa-plus"></i> Add New
                     </button>
                 </div>
-                <div class="table-responsive ">
-                    <table class="table table-bordered ">
+                <div class="table-responsive" style="overflow-x: auto">
+                    <table class="table table-bordered " style="width:100%; white-space: nowrap;">
                         <thead>
                             <tr>
                                 <th>ID</th>

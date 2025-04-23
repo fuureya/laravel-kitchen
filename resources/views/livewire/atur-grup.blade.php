@@ -13,8 +13,8 @@
                         </button>
                     @endif
                 </div>
-                <div class="table-responsive">
-                    <table class="table table-bordered">
+                <div class="table-responsive" style="overflow-x: auto">
+                    <table class="table table-bordered " style="width:100%; white-space: nowrap;">
                         <thead>
                             <tr>
                                 <th>No</th>

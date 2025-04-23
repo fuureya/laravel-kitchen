@@ -46,6 +46,16 @@ class DatabaseSeeder extends Seeder
             'update-recipe',
             'hapus-recipe',
 
+            'view-receive-out',
+            'tambah-receive-out',
+            'update-receive-out',
+            'hapus-receive-out',
+
+            'view-sales',
+            'tambah-sales',
+            'update-sales',
+            'hapus-sales',
+
             'view-hak-akses',
             'tambah-hak-akses',
             'update-hak-akses',
